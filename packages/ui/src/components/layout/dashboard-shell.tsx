@@ -9,11 +9,11 @@ interface DashboardShellProps {
     title?: string;
 }
 
-export function DashboardShell({ children, appName, navItems, title = "Dashboard" }: DashboardShellProps) {
+export function DashboardShell({ children, appName, navItems, title }: DashboardShellProps) {
     return (
-        <div className="flex min-h-screen bg-slate-50/50">
+        <div className="flex min-h-screen bg-[#F5F7FA]">
             <Sidebar appName={appName} items={navItems} />
-            <div className="flex flex-1 flex-col">
+            <div className="flex flex-1 flex-col h-screen overflow-hidden">
                 <Header title={title} />
                 <main className="flex-1 p-8 overflow-y-auto">
                     {children}

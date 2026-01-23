@@ -3,39 +3,38 @@ import {
     ListTodo,
     Wallet,
     Bell,
-    HelpCircle,
     User
 } from "lucide-react";
 
 export const navItems = [
     {
-        label: "Panel",
-        href: "/dashboard",
+        label: "Ana Sayfa",
+        href: "/",
         icon: LayoutDashboard,
     },
     {
         label: "Görevlerim",
-        href: "/dashboard/tasks",
+        href: "/tasks",
         icon: ListTodo,
     },
     {
         label: "Cüzdanım",
-        href: "/dashboard/wallet",
+        href: "/wallet",
         icon: Wallet,
     },
     {
         label: "Bildirimler",
-        href: "/dashboard/notifications",
+        href: "/notifications",
         icon: Bell,
     },
     {
-        label: "Destek",
-        href: "/dashboard/support",
-        icon: HelpCircle,
+        label: "Profil",
+        href: "/profile",
+        icon: User,
     },
     {
-        label: "Profil",
-        href: "/dashboard/profile",
-        icon: User,
+        label: "Destek",
+        href: "/support",
+        icon: User, // Destek ikonu eklenebilir
     },
 ];

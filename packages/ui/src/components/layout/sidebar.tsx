@@ -3,22 +3,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "../../lib/utils";
-import {
-    LayoutDashboard,
-    ListTodo,
-    Wallet,
-    Bell,
-    HelpCircle,
-    User,
-    LogOut
-} from "lucide-react";
+import { Activity, LogOut } from "lucide-react";
 
 interface SidebarProps {
     appName: string;
     items: {
         label: string;
         href: string;
-        icon: React.ElementType;
+        icon: any;
     }[];
 }
 
@@ -26,62 +18,51 @@ export function Sidebar({ appName, items }: SidebarProps) {
     const pathname = usePathname();
 
     return (
-        <div className="flex h-screen w-64 flex-col border-r bg-white text-slate-800">
-            <div className="flex h-20 items-center gap-2 border-b px-6">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-white font-bold">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="h-5 w-5"
-                    >
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                    </svg>
+        <aside className="w-64 bg-white hidden md:flex flex-col border-r border-slate-100 font-sans h-screen">
+            <div className="h-24 flex items-center px-6 gap-3 border-b border-transparent shrink-0">
+                <div className="w-10 h-10 bg-violet-600 rounded-xl flex items-center justify-center shadow-lg shadow-violet-200">
+                    <Activity className="text-white w-6 h-6" strokeWidth={2.5} />
                 </div>
-                <span className="font-bold tracking-tight">{appName.toUpperCase()}</span>
+                <span className="text-xl font-black text-slate-900 tracking-tight">SOSYAL</span>
             </div>
 
-            <div className="flex-1 overflow-auto py-6">
-                <nav className="grid items-start px-4 text-sm font-medium">
-                    {items.map((item, index) => {
-                        const Icon = item.icon;
-                        const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
-                        return (
-                            <Link
-                                key={index}
-                                href={item.href}
-                                className={cn(
-                                    "flex items-center gap-3 rounded-lg px-3 py-3 transition-all",
-                                    isActive
-                                        ? "bg-primary text-white shadow-md hover:bg-primary/90"
-                                        : "text-slate-500 hover:text-primary hover:bg-slate-50"
-                                )}
-                            >
-                                <Icon className="h-5 w-5" />
-                                {item.label}
-                            </Link>
-                        );
-                    })}
-                </nav>
-            </div>
+            <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
+                {items.map((item) => {
+                    const isActive = pathname === item.href;
+                    return (
+                        <Link
+                            key={item.href}
+                            href={item.href}
+                            className={cn(
+                                "flex items-center gap-3 px-4 py-3.5 text-sm font-bold rounded-xl transition-all duration-200 group",
+                                isActive
+                                    ? "bg-violet-600 text-white shadow-md shadow-violet-200"
+                                    : "text-slate-500 hover:bg-violet-50 hover:text-violet-600"
+                            )}
+                        >
+                            <item.icon
+                                className={cn("w-5 h-5 transition-colors", isActive ? "text-white" : "text-slate-400 group-hover:text-violet-600")}
+                                strokeWidth={isActive ? 2.5 : 2}
+                            />
+                            {item.label}
+                        </Link>
+                    );
+                })}
+            </nav>
 
-            <div className="border-t p-4">
-                <div className="flex items-center gap-3 rounded-xl bg-slate-50 p-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-100 text-primary font-bold">
-                        U
+            <div className="p-4 border-t border-slate-50 shrink-0">
+                <div className="bg-slate-50 rounded-2xl p-4 flex items-center gap-3 border border-slate-100">
+                    <div className="w-10 h-10 bg-violet-100 rounded-full flex items-center justify-center text-violet-600 font-bold text-lg border-2 border-white shadow-sm">
+                        K
                     </div>
-                    <div className="flex-1 overflow-hidden">
-                        <p className="truncate text-sm font-medium">Kullanıcı</p>
-                        <button className="flex items-center gap-1 text-xs text-slate-400 hover:text-red-500">
-                            <LogOut className="h-3 w-3" /> Çıkış Yap
+                    <div className="flex-1 min-w-0">
+                        <div className="text-sm font-bold text-slate-900 truncate">Kullanıcı</div>
+                        <button className="text-xs text-slate-400 hover:text-violet-600 flex items-center gap-1 font-semibold transition-colors mt-0.5">
+                            <LogOut size={12} /> ÇIKIŞ YAP
                         </button>
                     </div>
                 </div>
             </div>
-        </div>
+        </aside>
     );
 }

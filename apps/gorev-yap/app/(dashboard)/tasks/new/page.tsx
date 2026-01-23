@@ -1,9 +1,5 @@
 import { createTask } from "../../../actions/task";
-import { Button } from "@repo/ui/components/ui/button";
-import { Input } from "@repo/ui/components/ui/input";
-import { Label } from "@repo/ui/components/ui/label";
-import { Textarea } from "@repo/ui/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@repo/ui/components/ui/card";
+import { Button, Input, Label, Textarea, Card, CardContent, CardHeader, CardTitle, CardDescription } from "@repo/ui";
 import { AlertCircle } from "lucide-react";
 
 export default function CreateTaskPage() {

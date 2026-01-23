@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Outfit } from "next/font/google";
 import "./globals.css";
-import { cn } from "@repo/ui/lib/utils";
+import { cn } from "@repo/ui";
 
-const inter = Inter({ subsets: ["latin", "latin-ext"] });
+const outfit = Outfit({ subsets: ["latin", "latin-ext"] });
 
 export const metadata: Metadata = {
     title: "Görev Al | Sosyal Görev Platformu",
@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="tr">
-            <body className={cn("min-h-screen bg-background font-sans antialiased", inter.className)}>
+            <body className={cn("min-h-screen bg-background font-sans antialiased", outfit.className)}>
                 {children}
             </body>
         </html>

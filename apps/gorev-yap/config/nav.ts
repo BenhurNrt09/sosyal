@@ -1,42 +1,40 @@
 import {
     LayoutDashboard,
-    PlusCircle,
     ListTodo,
     Wallet,
     Bell,
-    Settings,
     User
 } from "lucide-react";
 
 export const navItems = [
     {
-        label: "Panel",
-        href: "/dashboard",
+        label: "Ana Sayfa",
+        href: "/",
         icon: LayoutDashboard,
     },
     {
-        label: "Görev Ver",
-        href: "/dashboard/tasks/new",
-        icon: PlusCircle,
-    },
-    {
         label: "Görevlerim",
-        href: "/dashboard/tasks",
+        href: "/tasks",
         icon: ListTodo,
     },
     {
         label: "Cüzdanım",
-        href: "/dashboard/wallet",
+        href: "/wallet",
         icon: Wallet,
     },
     {
-        label: "Ayarlar",
-        href: "/dashboard/settings",
-        icon: Settings,
+        label: "Bildirimler",
+        href: "/notifications",
+        icon: Bell,
     },
     {
         label: "Profil",
-        href: "/dashboard/profile",
+        href: "/profile",
         icon: User,
+    },
+    {
+        label: "Destek",
+        href: "/support",
+        icon: User, // Destek ikonu eklenebilir
     },
 ];

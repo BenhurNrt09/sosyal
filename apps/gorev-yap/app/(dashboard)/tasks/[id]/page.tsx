@@ -1,7 +1,6 @@
 import { getTaskWithSubmissions } from "../../../actions/management";
 import { reviewSubmission } from "../../../actions/review";
-import { Button } from "@repo/ui/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@repo/ui/components/ui/card";
+import { Button, Card, CardContent, CardHeader, CardTitle, CardDescription } from "@repo/ui";
 import { CheckCircle2, XCircle, ExternalLink, Clock } from "lucide-react";
 
 export default async function TaskManagementPage({ params }: { params: { id: string } }) {
