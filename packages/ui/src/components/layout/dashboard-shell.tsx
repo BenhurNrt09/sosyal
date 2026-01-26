@@ -7,11 +7,12 @@ interface DashboardShellProps {
     appName: string;
     navItems: any[];
     title?: string;
+    className?: string;
 }
 
-export function DashboardShell({ children, appName, navItems, title }: DashboardShellProps) {
+export function DashboardShell({ children, appName, navItems, title, className }: DashboardShellProps) {
     return (
-        <div className="flex min-h-screen bg-[#F5F7FA]">
+        <div className={cn("flex min-h-screen bg-[#F5F7FA]", className)}>
             <Sidebar appName={appName} items={navItems} />
             <div className="flex flex-1 flex-col h-screen overflow-hidden">
                 <Header title={title} />

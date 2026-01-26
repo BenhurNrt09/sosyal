@@ -18,12 +18,12 @@ export function Sidebar({ appName, items }: SidebarProps) {
     const pathname = usePathname();
 
     return (
-        <aside className="w-64 bg-white hidden md:flex flex-col border-r border-slate-100 font-sans h-screen">
+        <aside className="w-64 bg-white dark:bg-slate-900 hidden md:flex flex-col border-r border-slate-100 dark:border-slate-800 font-sans h-screen">
             <div className="h-24 flex items-center px-6 gap-3 border-b border-transparent shrink-0">
-                <div className="w-10 h-10 bg-violet-600 rounded-xl flex items-center justify-center shadow-lg shadow-violet-200">
+                <div className="w-10 h-10 bg-violet-600 rounded-xl flex items-center justify-center shadow-lg shadow-violet-500/20">
                     <Activity className="text-white w-6 h-6" strokeWidth={2.5} />
                 </div>
-                <span className="text-xl font-black text-slate-900 tracking-tight">SOSYAL</span>
+                <span className="text-xl font-black text-slate-900 dark:text-white tracking-tight">SOSYAL</span>
             </div>
 
             <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
@@ -50,14 +50,14 @@ export function Sidebar({ appName, items }: SidebarProps) {
                 })}
             </nav>
 
-            <div className="p-4 border-t border-slate-50 shrink-0">
-                <div className="bg-slate-50 rounded-2xl p-4 flex items-center gap-3 border border-slate-100">
-                    <div className="w-10 h-10 bg-violet-100 rounded-full flex items-center justify-center text-violet-600 font-bold text-lg border-2 border-white shadow-sm">
+            <div className="p-4 border-t border-slate-50 dark:border-slate-800 shrink-0">
+                <div className="bg-slate-50 dark:bg-slate-800 rounded-2xl p-4 flex items-center gap-3 border border-slate-100 dark:border-slate-700">
+                    <div className="w-10 h-10 bg-violet-100 dark:bg-violet-900/30 rounded-full flex items-center justify-center text-violet-600 dark:text-violet-400 font-bold text-lg border-2 border-white dark:border-slate-700 shadow-sm">
                         K
                     </div>
                     <div className="flex-1 min-w-0">
-                        <div className="text-sm font-bold text-slate-900 truncate">Kullanıcı</div>
-                        <button className="text-xs text-slate-400 hover:text-violet-600 flex items-center gap-1 font-semibold transition-colors mt-0.5">
+                        <div className="text-sm font-bold text-slate-900 dark:text-white truncate">Kullanıcı</div>
+                        <button className="text-xs text-slate-400 hover:text-violet-600 dark:hover:text-violet-400 flex items-center gap-1 font-semibold transition-colors mt-0.5">
                             <LogOut size={12} /> ÇIKIŞ YAP
                         </button>
                     </div>
