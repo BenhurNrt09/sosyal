@@ -1,4 +1,5 @@
-import Link from "next/link";
+"use client";
+
 import { Button } from "@repo/ui";
 import { FileSearch } from "lucide-react";
 
@@ -9,13 +10,16 @@ export default function NotFound() {
                 <FileSearch size={48} />
             </div>
             <h1 className="text-6xl font-black text-slate-900 mb-4">404</h1>
-            <h2 className="text-2xl font-bold text-slate-800 mb-4">Sayfa Bulunamadı</h2>
-            <p className="text-slate-500 max-w-md mb-8">
+            <h2 className="text-2xl font-bold text-slate-800 mb-4 font-black uppercase tracking-tight">Sayfa Bulunamadı</h2>
+            <p className="text-slate-500 max-w-md mb-8 font-medium transition-colors">
                 Aradığınız sayfa mevcut değil veya taşınmış olabilir.
-                Lütfen adresi kontrol edin veya ana sayfaya dönün.
+                Lütfen adresi kontrol edin veya geri dönün.
             </p>
-            <Button asChild className="bg-violet-600 hover:bg-violet-700 text-white font-black px-8 py-6 rounded-2xl shadow-lg shadow-violet-100 transition-all active:scale-[0.95]">
-                <Link href="/">Ana Sayfaya Dön</Link>
+            <Button
+                onClick={() => window.history.back()}
+                className="bg-violet-600 hover:bg-violet-700 text-white font-black px-8 py-6 rounded-2xl shadow-lg shadow-violet-100 transition-all active:scale-[0.95]"
+            >
+                GERİ DÖN
             </Button>
         </div>
     );

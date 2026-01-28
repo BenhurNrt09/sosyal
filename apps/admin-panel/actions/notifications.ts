@@ -72,3 +72,23 @@ export async function deleteNotification(id: string) {
     revalidatePath("/dashboard/notifications");
     return { success: true };
 }
+export async function markAllNotificationsAsRead(userId?: string) {
+    const supabase = await createClient();
+
+    let targetId = userId;
+
+    if (!targetId) {
+        const { data: userData } = await supabase.auth.getUser();
+        if (!userData.user) return { error: "Yetkisiz erişim" };
+        targetId = userData.user.id;
+    }
+
+    const { error } = await supabase
+        .from("notifications")
+        .update({ is_read: true })
+        .eq("user_id", targetId);
+
+    if (error) return { error: error.message };
+    revalidatePath("/dashboard/notifications");
+    return { success: true };
+}

@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 
 interface SidebarProps {
     appName: string;
+    logoUrl?: string; // New prop for image logo
     items: {
         label: string;
         href: string;
@@ -16,7 +17,7 @@ interface SidebarProps {
     }[];
 }
 
-export function Sidebar({ appName, items }: SidebarProps) {
+export function Sidebar({ appName, logoUrl, items }: SidebarProps) {
     const pathname = usePathname();
     const router = useRouter();
     const [userName, setUserName] = useState("Kullanıcı");
@@ -41,7 +42,8 @@ export function Sidebar({ appName, items }: SidebarProps) {
                     .single();
 
                 if (profile) {
-                    const displayName = profile.username || profile.name || user.email?.split('@')[0] || "Kullanıcı";
+                    // Force "ADMIN" for admin role, otherwise use display name
+                    const displayName = profile.role === 'admin' ? "ADMIN" : (profile.username || profile.name || user.email?.split('@')[0] || "Kullanıcı");
                     setUserName(displayName);
                     setUserInitial(displayName.charAt(0).toUpperCase());
                     setIsAdmin(profile.role === 'admin');
@@ -65,7 +67,7 @@ export function Sidebar({ appName, items }: SidebarProps) {
                         filter: `id=eq.${user.id}`
                     }, (payload) => {
                         const newProfile = payload.new as any;
-                        const displayName = newProfile.username || newProfile.name || user.email?.split('@')[0] || "Kullanıcı";
+                        const displayName = newProfile.role === 'admin' ? "ADMIN" : (newProfile.username || newProfile.name || user.email?.split('@')[0] || "Kullanıcı");
                         setUserName(displayName);
                         setUserInitial(displayName.charAt(0).toUpperCase());
                         setIsAdmin(newProfile.role === 'admin');
@@ -110,10 +112,16 @@ export function Sidebar({ appName, items }: SidebarProps) {
     return (
         <aside className="w-64 bg-white dark:bg-slate-900 hidden md:flex flex-col border-r border-slate-100 dark:border-slate-800 font-sans h-screen">
             <div className="h-24 flex items-center px-6 gap-3 border-b border-transparent shrink-0">
-                <div className="w-10 h-10 bg-violet-600 rounded-xl flex items-center justify-center shadow-lg shadow-violet-500/20">
-                    <Activity className="text-white w-6 h-6" strokeWidth={2.5} />
-                </div>
-                <span className="text-xl font-black text-slate-900 dark:text-white tracking-tight">SOSYAL</span>
+                {logoUrl ? (
+                    <div className="w-10 h-10 rounded-xl overflow-hidden shadow-lg shadow-primary/20">
+                        <img src={logoUrl} alt={appName} className="w-full h-full object-cover" />
+                    </div>
+                ) : (
+                    <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
+                        <Activity className="text-white w-6 h-6" strokeWidth={2.5} />
+                    </div>
+                )}
+                <span className="text-xl font-black text-slate-900 dark:text-white tracking-tight uppercase">{appName}</span>
             </div>
 
             <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
@@ -126,12 +134,12 @@ export function Sidebar({ appName, items }: SidebarProps) {
                             className={cn(
                                 "flex items-center gap-3 px-4 py-3.5 text-sm font-bold rounded-xl transition-all duration-200 group",
                                 isActive
-                                    ? "bg-violet-600 text-white shadow-md shadow-violet-200"
-                                    : "text-slate-500 hover:bg-violet-50 hover:text-violet-600"
+                                    ? "bg-primary text-white shadow-md shadow-primary/20"
+                                    : "text-slate-500 hover:bg-primary/5 hover:text-primary transition-colors"
                             )}
                         >
                             <item.icon
-                                className={cn("w-5 h-5 transition-colors", isActive ? "text-white" : "text-slate-400 group-hover:text-violet-600")}
+                                className={cn("w-5 h-5 transition-colors", isActive ? "text-white" : "text-slate-400 group-hover:text-primary")}
                                 strokeWidth={isActive ? 2.5 : 2}
                             />
                             {item.label}
@@ -147,12 +155,15 @@ export function Sidebar({ appName, items }: SidebarProps) {
 
             <div className="p-4 border-t border-slate-50 dark:border-slate-800 shrink-0">
                 <div className="bg-slate-50 dark:bg-slate-800 rounded-2xl p-4 flex items-center gap-3 border border-slate-100 dark:border-slate-700">
-                    <div className="w-10 h-10 bg-violet-100 dark:bg-violet-900/30 rounded-full flex items-center justify-center text-violet-600 dark:text-violet-400 font-bold text-lg border-2 border-white dark:border-slate-700 shadow-sm">
+                    <div className="w-10 h-10 bg-primary/10 dark:bg-primary/20 rounded-full flex items-center justify-center text-primary font-bold text-lg border-2 border-white dark:border-slate-700 shadow-sm">
                         {userInitial}
                     </div>
                     <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                            <div className="text-sm font-bold text-slate-900 dark:text-white truncate">{userName}</div>
+                            <div className={cn(
+                                "text-sm font-bold truncate",
+                                appName === "DİJİTAL HAVUZ" ? "text-orange-500" : "text-primary"
+                            )}>{userName}</div>
                             {isAdmin && (
                                 <span className="bg-amber-100 text-amber-700 text-[10px] font-black px-1.5 py-0.5 rounded border border-amber-200 shrink-0">
                                     ADMİN

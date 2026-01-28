@@ -24,11 +24,11 @@ export default function RootLoginPage() {
 
     return (
         <div className="flex min-h-screen items-center justify-center bg-slate-50 p-4">
-            <Card className="w-full max-w-md border-violet-100 shadow-xl shadow-violet-50/50">
+            <Card className="w-full max-w-md border-orange-100 shadow-xl shadow-orange-50/50">
                 <CardHeader className="space-y-1 pb-8">
                     <div className="flex justify-center mb-4">
-                        <div className="w-12 h-12 bg-gradient-to-br from-violet-500 to-violet-600 rounded-2xl flex items-center justify-center text-white font-black text-2xl shadow-lg shadow-violet-200">
-                            G
+                        <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center text-white font-black text-2xl shadow-lg shadow-orange-200">
+                            D
                         </div>
                     </div>
                     <CardTitle className="text-3xl font-black text-center text-slate-900">Giriş Yap</CardTitle>
@@ -46,12 +46,12 @@ export default function RootLoginPage() {
                         )}
                         <div className="space-y-2">
                             <Label htmlFor="email" className="font-bold text-slate-700">Email</Label>
-                            <Input id="email" name="email" type="email" placeholder="ornek@site.com" className="rounded-xl border-slate-200 focus:ring-violet-500 h-12" required disabled={isPending} />
+                            <Input id="email" name="email" type="email" placeholder="ornek@site.com" className="rounded-xl border-slate-200 focus:ring-orange-500 h-12" required disabled={isPending} />
                         </div>
                         <div className="space-y-2">
                             <div className="flex items-center justify-between">
                                 <Label htmlFor="password" title="password icon" className="font-bold text-slate-700">Şifre</Label>
-                                <Link href="#" className="text-xs text-violet-600 hover:text-violet-700 font-bold">
+                                <Link href="#" className="text-xs text-orange-600 hover:text-orange-700 font-bold">
                                     Şifremi unuttum?
                                 </Link>
                             </div>
@@ -60,7 +60,7 @@ export default function RootLoginPage() {
                                     id="password"
                                     name="password"
                                     type={showPassword ? "text" : "password"}
-                                    className="rounded-xl border-slate-200 focus:ring-violet-500 h-12 pr-10"
+                                    className="rounded-xl border-slate-200 focus:ring-orange-500 h-12 pr-10"
                                     required
                                     disabled={isPending}
                                 />
@@ -85,7 +85,7 @@ export default function RootLoginPage() {
                                 id="rememberMe"
                                 checked={rememberMe}
                                 onChange={(e) => setRememberMe(e.target.checked)}
-                                className="w-4 h-4 rounded border-slate-300 text-violet-600 focus:ring-violet-500 cursor-pointer"
+                                className="w-4 h-4 rounded border-slate-300 text-orange-600 focus:ring-orange-500 cursor-pointer"
                                 disabled={isPending}
                             />
                             <Label htmlFor="rememberMe" className="text-sm font-medium text-slate-700 cursor-pointer">
@@ -95,7 +95,7 @@ export default function RootLoginPage() {
                         <Button
                             type="submit"
                             disabled={isPending}
-                            className="w-full bg-violet-600 hover:bg-violet-700 text-white font-black rounded-xl h-12 shadow-lg shadow-violet-100 transition-all active:scale-[0.98] flex items-center justify-center gap-2"
+                            className="w-full bg-orange-600 hover:bg-orange-700 text-white font-black rounded-xl h-12 shadow-lg shadow-orange-100 transition-all active:scale-[0.98] flex items-center justify-center gap-2"
                         >
                             {isPending ? (
                                 <>
@@ -111,7 +111,7 @@ export default function RootLoginPage() {
                 <CardFooter className="flex justify-center border-t border-slate-50 pt-6">
                     <div className="text-sm text-slate-500 font-medium">
                         Hesabın yok mu?{" "}
-                        <Link href="/register" className="text-violet-600 hover:text-violet-700 font-black">
+                        <Link href="/register" className="text-orange-600 hover:text-orange-700 font-black">
                             Kayıt Ol
                         </Link>
                     </div>

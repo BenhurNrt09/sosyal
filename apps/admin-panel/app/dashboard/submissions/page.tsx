@@ -1,10 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getTasks, updateSubmissionStatus, completeTaskAndPay, subscribeToTasks, Submission } from "@repo/lib";
-import { createClient } from "@repo/lib/src/supabase";
 import { CheckCircle, XCircle, Clock, AlertTriangle, ShieldCheck, DollarSign } from "lucide-react";
 import { Button } from "@repo/ui/src/components/ui/button";
+import { getGlobalSubmissions, updateGlobalSubmissionStatus, completeSubmissionAndPay } from "@/actions/submissions";
 
 export default function AdminSubmissionsPage() {
     const [submissions, setSubmissions] = useState<any[]>([]);
@@ -12,16 +11,11 @@ export default function AdminSubmissionsPage() {
 
     useEffect(() => {
         loadAllSubmissions();
-        const unsubscribe = subscribeToTasks(() => loadAllSubmissions());
-        return unsubscribe;
     }, []);
 
     const loadAllSubmissions = async () => {
-        const supabase = createClient();
-        const { data, error } = await supabase
-            .from('task_submissions')
-            .select('*, tasks(*), profiles:user_id(username, full_name)');
-
+        setLoading(true);
+        const { data } = await getGlobalSubmissions();
         if (data) {
             setSubmissions(data);
         }
@@ -29,17 +23,17 @@ export default function AdminSubmissionsPage() {
     };
 
     const handleApproveApplication = async (id: string) => {
-        const success = await updateSubmissionStatus(id, 'approved');
-        if (success) loadAllSubmissions();
+        const result = await updateGlobalSubmissionStatus(id, 'approved');
+        if (result.success) loadAllSubmissions();
     };
 
     const handleFinalApproval = async (id: string) => {
-        const success = await completeTaskAndPay(id);
-        if (success) {
+        const result = await completeSubmissionAndPay(id);
+        if (result.success) {
             alert("Görev başarıyla tamamlandı ve ödeme yapıldı!");
             loadAllSubmissions();
         } else {
-            alert("Ödeme sırasında bir hata oluştu.");
+            alert("Ödeme sırasında bir hata oluştu: " + result.error);
         }
     };
 
@@ -76,10 +70,10 @@ export default function AdminSubmissionsPage() {
                                 </td>
                                 <td className="p-4">
                                     <span className={`px-2 py-1 rounded-full text-[10px] font-black uppercase ${sub.status === 'pending' ? 'bg-amber-100 text-amber-700' :
-                                            sub.status === 'approved' ? 'bg-blue-100 text-blue-700' :
-                                                sub.status === 'submitted' ? 'bg-purple-100 text-purple-700' :
-                                                    sub.status === 'creator_approved' ? 'bg-indigo-100 text-indigo-700' :
-                                                        sub.status === 'completed' ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'
+                                        sub.status === 'approved' ? 'bg-cyan-100 text-cyan-700' :
+                                            sub.status === 'submitted' ? 'bg-cyan-50 text-cyan-600' :
+                                                sub.status === 'creator_approved' ? 'bg-emerald-100 text-emerald-700' :
+                                                    sub.status === 'completed' ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'
                                         }`}>
                                         {sub.status}
                                     </span>
@@ -94,7 +88,7 @@ export default function AdminSubmissionsPage() {
                                         {sub.status === 'pending' && (
                                             <Button
                                                 onClick={() => handleApproveApplication(sub.id)}
-                                                className="bg-blue-600 text-white text-xs h-8 px-3 rounded-lg flex items-center gap-1"
+                                                className="bg-cyan-600 text-white text-xs h-8 px-3 rounded-lg flex items-center gap-1 shadow-md shadow-cyan-100 hover:bg-cyan-700"
                                             >
                                                 <ShieldCheck className="w-3 h-3" /> Başvuru Onayla
                                             </Button>

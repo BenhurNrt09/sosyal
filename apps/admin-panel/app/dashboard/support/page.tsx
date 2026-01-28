@@ -4,7 +4,7 @@ import { MessageSquare, Search, MoreVertical, Loader2, CheckCircle, Clock, Trash
 import { Button, Input } from "@repo/ui";
 import { useState, useEffect } from "react";
 import { createClient } from "@repo/lib/src/supabase";
-import { replyToSupportTicket, deleteSupportTicket } from "@/actions/support";
+import { replyToSupportTicket, deleteSupportTicket, getSupportTickets } from "@/actions/support";
 
 export default function SupportAdminPage() {
     const [tickets, setTickets] = useState<any[]>([]);
@@ -22,12 +22,7 @@ export default function SupportAdminPage() {
 
     async function fetchTickets() {
         setLoading(true);
-        const supabase = createClient();
-
-        const { data, error } = await supabase
-            .from("support_tickets")
-            .select("*, profiles:user_id(username, full_name, email)")
-            .order("created_at", { ascending: false });
+        const { data, error } = await getSupportTickets();
 
         if (error) {
             console.error("Error fetching tickets:", error);
@@ -114,7 +109,7 @@ export default function SupportAdminPage() {
                                 <textarea
                                     value={adminResponse}
                                     onChange={(e) => setAdminResponse(e.target.value)}
-                                    className="w-full border border-slate-200 rounded-2xl p-4 min-h-[200px] focus:ring-2 focus:ring-violet-500 outline-none font-medium"
+                                    className="w-full border border-slate-200 rounded-2xl p-4 min-h-[200px] focus:ring-2 focus:ring-cyan-500 outline-none font-medium"
                                     placeholder="Kullanıcıya iletilecek cevabı yazın..."
                                 />
                             </div>
@@ -130,7 +125,7 @@ export default function SupportAdminPage() {
                                 <Button
                                     onClick={submitResponse}
                                     disabled={isResponding || !adminResponse.trim()}
-                                    className="flex-1 bg-violet-600 hover:bg-violet-700 text-white rounded-xl h-12 font-bold"
+                                    className="flex-1 bg-cyan-600 hover:bg-cyan-700 text-white rounded-xl h-12 font-bold"
                                 >
                                     {isResponding ? "Gönderiliyor..." : "Cevabı Gönder"}
                                 </Button>
@@ -199,7 +194,7 @@ export default function SupportAdminPage() {
                 <div className="overflow-x-auto">
                     {loading ? (
                         <div className="flex justify-center py-12">
-                            <Loader2 className="h-8 w-8 animate-spin text-violet-600" />
+                            <Loader2 className="h-8 w-8 animate-spin text-cyan-600" />
                         </div>
                     ) : (
                         <table className="w-full">

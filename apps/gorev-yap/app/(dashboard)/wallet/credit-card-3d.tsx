@@ -38,7 +38,7 @@ export function CreditCard3D({ data, isFlipped }: { data: CardData; isFlipped: b
                     className="absolute w-full h-full rounded-2xl p-6 shadow-2xl"
                     style={{
                         backfaceVisibility: "hidden",
-                        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                        background: "linear-gradient(135deg, #f97316 0%, #ea580c 100%)",
                     }}
                 >
                     <div className="flex flex-col h-full justify-between text-white">
@@ -75,7 +75,7 @@ export function CreditCard3D({ data, isFlipped }: { data: CardData; isFlipped: b
                     style={{
                         backfaceVisibility: "hidden",
                         transform: "rotateY(180deg)",
-                        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                        background: "linear-gradient(135deg, #f97316 0%, #ea580c 100%)",
                     }}
                 >
                     <div className="flex flex-col h-full">

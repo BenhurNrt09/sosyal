@@ -90,7 +90,7 @@ export default function TasksPage() {
         return (
             <div className="flex items-center justify-center min-h-[400px]">
                 <div className="text-center">
-                    <div className="w-12 h-12 border-4 border-violet-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                    <div className="w-12 h-12 border-4 border-orange-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
                     <p className="text-slate-500">Görevler yükleniyor...</p>
                 </div>
             </div>
@@ -104,7 +104,7 @@ export default function TasksPage() {
                 <h2 className="text-2xl font-black text-slate-900">Görevlerim</h2>
                 <Button
                     onClick={() => setIsModalOpen(true)}
-                    className="bg-violet-600 hover:bg-violet-700 text-white font-bold rounded-xl px-6 py-3 shadow-lg shadow-violet-200"
+                    className="bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl px-6 py-3 shadow-lg shadow-orange-200"
                 >
                     <Plus className="mr-2 h-5 w-5" />
                     Yeni Görev Ekle
@@ -123,8 +123,8 @@ export default function TasksPage() {
                                 className={`
                                     flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all whitespace-nowrap
                                     ${activeTab === tab.id
-                                        ? "bg-violet-600 text-white shadow-md shadow-violet-200"
-                                        : "text-slate-500 hover:bg-violet-50 hover:text-violet-600"
+                                        ? "bg-orange-600 text-white shadow-md shadow-orange-200"
+                                        : "text-slate-500 hover:bg-orange-50 hover:text-orange-600"
                                     }
                                 `}
                             >
@@ -150,7 +150,7 @@ export default function TasksPage() {
                 {filteredTasks.length === 0 ? (
                     /* Empty State */
                     <div className="flex flex-col items-center justify-center py-16 text-center">
-                        <div className="w-20 h-20 bg-violet-50 text-violet-600 rounded-2xl flex items-center justify-center mb-6">
+                        <div className="w-20 h-20 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center mb-6">
                             <List className="w-10 h-10" />
                         </div>
                         <h3 className="text-xl font-black text-slate-900 mb-2">
@@ -164,7 +164,7 @@ export default function TasksPage() {
                         </p>
                         <Button
                             onClick={() => setIsModalOpen(true)}
-                            className="bg-violet-600 hover:bg-violet-700 text-white font-bold rounded-xl px-6 py-3 shadow-lg shadow-violet-200"
+                            className="bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl px-6 py-3 shadow-lg shadow-orange-200"
                         >
                             <Plus className="mr-2 h-4 w-4" />
                             İlk Görevi Ekle
@@ -182,7 +182,7 @@ export default function TasksPage() {
                                 >
                                     <div className="flex items-start justify-between mb-4">
                                         <div className="flex items-center gap-3">
-                                            <div className="w-12 h-12 rounded-xl bg-violet-100 text-violet-600 flex items-center justify-center">
+                                            <div className="w-12 h-12 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center">
                                                 <TaskIcon className="w-6 h-6" />
                                             </div>
                                             <div>
@@ -208,7 +208,7 @@ export default function TasksPage() {
                                         </div>
                                         <div>
                                             <p className="text-xs text-slate-500 mb-1">Toplam</p>
-                                            <p className="font-bold text-violet-600">
+                                            <p className="font-bold text-orange-600">
                                                 {(Number(task.quantity) * Number(task.price)).toFixed(2)}₺
                                             </p>
                                         </div>
@@ -231,7 +231,7 @@ export default function TasksPage() {
                                             href={task.link}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="text-sm text-violet-600 hover:text-violet-700 font-medium flex items-center gap-2"
+                                            className="text-sm text-orange-600 hover:text-orange-700 font-medium flex items-center gap-2"
                                         >
                                             <ExternalLink className="w-4 h-4" />
                                             Linki Görüntüle

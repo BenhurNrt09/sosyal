@@ -54,6 +54,25 @@ CREATE POLICY "Admins can manage all notifications" ON public.notifications
         )
     );
 
+DROP POLICY IF EXISTS "Anyone can insert notifications" ON public.notifications;
+CREATE POLICY "Anyone can insert notifications" ON public.notifications
+    FOR INSERT WITH CHECK (auth.role() = 'authenticated');
+
+-- Support Tickets RLS Fix
+ALTER TABLE public.support_tickets ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Users can create own tickets" ON public.support_tickets;
+CREATE POLICY "Users can create own tickets" ON public.support_tickets
+    FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+DROP POLICY IF EXISTS "Admins can manage all tickets" ON public.support_tickets;
+CREATE POLICY "Admins can manage all tickets" ON public.support_tickets
+    FOR ALL USING (
+        EXISTS (
+            SELECT 1 FROM public.profiles 
+            WHERE profiles.id = auth.uid() AND profiles.role = 'admin'
+        )
+    );
+
 -- 6. Enable Realtime (Safely)
 DO $$
 BEGIN
@@ -82,5 +101,14 @@ BEGIN
         AND tablename = 'withdrawal_requests'
     ) THEN
         ALTER PUBLICATION supabase_realtime ADD TABLE public.withdrawal_requests;
+    END IF;
+
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_publication_tables 
+        WHERE pubname = 'supabase_realtime' 
+        AND schemaname = 'public' 
+        AND tablename = 'profiles'
+    ) THEN
+        ALTER PUBLICATION supabase_realtime ADD TABLE public.profiles;
     END IF;
 END $$;

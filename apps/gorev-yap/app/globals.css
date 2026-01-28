@@ -10,8 +10,8 @@
         --card-foreground: 222.2 84% 4.9%;
         --popover: 0 0% 100%;
         --popover-foreground: 222.2 84% 4.9%;
-        --primary: 262 83% 58%;
-        /* Violet */
+        --primary: 24 95% 53.1%;
+        /* Orange */
         --primary-foreground: 0 0% 100%;
         --secondary: 210 40% 96.1%;
         --secondary-foreground: 222.2 47.4% 11.2%;
@@ -23,8 +23,8 @@
         --destructive-foreground: 0 0% 98%;
         --border: 214.3 31.8% 91.4%;
         --input: 214.3 31.8% 91.4%;
-        --ring: 262 83% 58%;
-        /* Violet */
+        --ring: 24 95% 53.1%;
+        /* Orange */
         --radius: 0.5rem;
     }
 }

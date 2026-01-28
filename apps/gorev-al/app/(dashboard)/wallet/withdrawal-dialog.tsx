@@ -120,26 +120,31 @@ export function WithdrawalDialog({ isOpen, onClose, balance }: WithdrawalDialogP
                     </div>
 
                     <div>
-                        <Label className="text-sm font-bold text-slate-700 mb-2">Banka Adı</Label>
-                        <select
-                            value={bankName}
-                            onChange={(e) => setBankName(e.target.value)}
-                            className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent font-medium"
-                            required
-                        >
-                            <option value="">Banka Seçin</option>
-                            <option value="Akbank">Akbank</option>
-                            <option value="Denizbank">Denizbank</option>
-                            <option value="Garanti BBVA">Garanti BBVA</option>
-                            <option value="Halkbank">Halkbank</option>
-                            <option value="İş Bankası">İş Bankası</option>
-                            <option value="QNB Finansbank">QNB Finansbank</option>
-                            <option value="TEB">TEB</option>
-                            <option value="Vakıfbank">Vakıfbank</option>
-                            <option value="Yapı Kredi">Yapı Kredi</option>
-                            <option value="Ziraat Bankası">Ziraat Bankası</option>
-                            <option value="Diğer">Diğer</option>
-                        </select>
+                        <Label className="text-[10px] font-black text-slate-400 uppercase mb-2 block tracking-widest">Banka Seçimi</Label>
+                        <div className="relative group">
+                            <select
+                                value={bankName}
+                                onChange={(e) => setBankName(e.target.value)}
+                                className="w-full h-14 px-4 rounded-xl border border-slate-100 bg-slate-50/50 appearance-none focus:bg-white focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-500 transition-all font-bold text-sm cursor-pointer hover:border-violet-200"
+                                required
+                            >
+                                <option value="">BANKA SEÇİN</option>
+                                <option value="Akbank">Akbank</option>
+                                <option value="Denizbank">Denizbank</option>
+                                <option value="Garanti BBVA">Garanti BBVA</option>
+                                <option value="Halkbank">Halkbank</option>
+                                <option value="İş Bankası">İş Bankası</option>
+                                <option value="QNB Finansbank">QNB Finansbank</option>
+                                <option value="TEB">TEB</option>
+                                <option value="Vakıfbank">Vakıfbank</option>
+                                <option value="Yapı Kredi">Yapı Kredi</option>
+                                <option value="Ziraat Bankası">Ziraat Bankası</option>
+                                <option value="Diğer">Diğer</option>
+                            </select>
+                            <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 group-hover:text-violet-500 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+                            </div>
+                        </div>
                     </div>
 
                     <div className="flex gap-3 pt-4">

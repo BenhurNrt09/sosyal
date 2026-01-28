@@ -10,7 +10,7 @@ export default function DashboardLayout({
 }) {
     return (
         <DashboardShell
-            appName="Yönetim"
+            appName="Admin Panel"
             navItems={navItems}
             title="Yönetim Paneli"
             className="bg-[#F5F7FA] dark:bg-slate-950 dark:text-slate-50"

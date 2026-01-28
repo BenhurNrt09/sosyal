@@ -37,3 +37,19 @@ export async function deleteSupportTicket(id: string) {
     revalidatePath("/dashboard/support");
     return { success: true };
 }
+
+export async function getSupportTickets() {
+    const supabase = await createClient();
+
+    const { data, error } = await supabase
+        .from("support_tickets")
+        .select("*, profiles:user_id(username, full_name, email)")
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        console.error("Error fetching tickets:", error);
+        return { data: [], error: error.message };
+    }
+
+    return { data: data || [] };
+}

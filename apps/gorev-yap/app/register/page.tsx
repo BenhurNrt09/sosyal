@@ -27,11 +27,11 @@ export default function RegisterPage() {
 
     return (
         <div className="flex min-h-screen items-center justify-center bg-slate-50 p-4">
-            <Card className="w-full max-w-md border-violet-100 shadow-xl shadow-violet-50/50">
+            <Card className="w-full max-w-md border-orange-100 shadow-xl shadow-orange-50/50">
                 <CardHeader className="space-y-1 pb-8">
                     <div className="flex justify-center mb-4">
-                        <div className="w-12 h-12 bg-gradient-to-br from-violet-500 to-violet-600 rounded-2xl flex items-center justify-center text-white font-black text-2xl shadow-lg shadow-violet-200">
-                            G
+                        <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center text-white font-black text-2xl shadow-lg shadow-orange-200">
+                            D
                         </div>
                     </div>
                     <CardTitle className="text-3xl font-black text-center text-slate-900">
@@ -53,7 +53,7 @@ export default function RegisterPage() {
                                 <p className="text-lg font-bold">Kayıt yapıldı!</p>
                                 <p className="text-sm font-medium opacity-90">Lütfen giriş yaparak devam edin.</p>
                             </div>
-                            <Button asChild className="w-full bg-violet-600 hover:bg-violet-700 text-white font-black rounded-xl h-12 shadow-lg shadow-violet-100 transition-all active:scale-[0.98]">
+                            <Button asChild className="w-full bg-orange-600 hover:bg-orange-700 text-white font-black rounded-xl h-12 shadow-lg shadow-orange-100 transition-all active:scale-[0.98]">
                                 <Link href="/login">Giriş Yap</Link>
                             </Button>
                         </div>
@@ -68,17 +68,17 @@ export default function RegisterPage() {
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-2">
                                     <Label htmlFor="fullName" className="font-bold text-slate-700">Ad Soyad</Label>
-                                    <Input id="fullName" name="fullName" placeholder="Ad Soyad" className="rounded-xl border-slate-200 focus:ring-violet-500 h-11" required disabled={isPending} />
+                                    <Input id="fullName" name="fullName" placeholder="Ad Soyad" className="rounded-xl border-slate-200 focus:ring-orange-500 h-11" required disabled={isPending} />
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="username" className="font-bold text-slate-700">Kullanıcı Adı</Label>
-                                    <Input id="username" name="username" placeholder="kullaniciadi" className="rounded-xl border-slate-200 focus:ring-violet-500 h-11" required disabled={isPending} />
+                                    <Input id="username" name="username" placeholder="kullaniciadi" className="rounded-xl border-slate-200 focus:ring-orange-500 h-11" required disabled={isPending} />
                                 </div>
                             </div>
 
                             <div className="space-y-2">
                                 <Label htmlFor="email" className="font-bold text-slate-700">Email</Label>
-                                <Input id="email" name="email" type="email" placeholder="ornek@site.com" className="rounded-xl border-slate-200 focus:ring-violet-500 h-11" required disabled={isPending} />
+                                <Input id="email" name="email" type="email" placeholder="ornek@site.com" className="rounded-xl border-slate-200 focus:ring-orange-500 h-11" required disabled={isPending} />
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="password" title="password label" className="font-bold text-slate-700">Şifre</Label>
@@ -87,7 +87,7 @@ export default function RegisterPage() {
                                         id="password"
                                         name="password"
                                         type={showPassword ? "text" : "password"}
-                                        className="rounded-xl border-slate-200 focus:ring-violet-500 h-11 pr-10"
+                                        className="rounded-xl border-slate-200 focus:ring-orange-500 h-11 pr-10"
                                         required
                                         disabled={isPending}
                                     />
@@ -113,7 +113,7 @@ export default function RegisterPage() {
                                         id="passwordConfirm"
                                         name="passwordConfirm"
                                         type={showPasswordConfirm ? "text" : "password"}
-                                        className="rounded-xl border-slate-200 focus:ring-violet-500 h-11 pr-10"
+                                        className="rounded-xl border-slate-200 focus:ring-orange-500 h-11 pr-10"
                                         required
                                         disabled={isPending}
                                     />
@@ -135,7 +135,7 @@ export default function RegisterPage() {
                             <Button
                                 type="submit"
                                 disabled={isPending}
-                                className="w-full bg-violet-600 hover:bg-violet-700 text-white font-black rounded-xl h-12 shadow-lg shadow-violet-100 transition-all active:scale-[0.98] flex items-center justify-center gap-2"
+                                className="w-full bg-orange-600 hover:bg-orange-700 text-white font-black rounded-xl h-12 shadow-lg shadow-orange-100 transition-all active:scale-[0.98] flex items-center justify-center gap-2"
                             >
                                 {isPending ? (
                                     <>
@@ -153,7 +153,7 @@ export default function RegisterPage() {
                     <CardFooter className="flex justify-center border-t border-slate-50 pt-6">
                         <div className="text-sm text-slate-500 font-medium">
                             Zaten hesabın var mı?{" "}
-                            <Link href="/login" className="text-violet-600 hover:text-violet-700 font-black">
+                            <Link href="/login" className="text-orange-600 hover:text-orange-700 font-black">
                                 Giriş Yap
                             </Link>
                         </div>

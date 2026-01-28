@@ -5,7 +5,7 @@ import { Instagram, Twitter, Facebook, Youtube, TrendingUp } from "lucide-react"
 import { Button } from "@repo/ui/src/components/ui/button";
 
 const platforms = [
-    { id: "instagram", name: "Instagram", icon: Instagram, color: "from-pink-500 to-purple-600" },
+    { id: "instagram", name: "Instagram", icon: Instagram, color: "from-pink-500 to-orange-600" },
     { id: "twitter", name: "Twitter", icon: Twitter, color: "from-blue-400 to-blue-600" },
     { id: "facebook", name: "Facebook", icon: Facebook, color: "from-blue-600 to-blue-700" },
     { id: "youtube", name: "YouTube", icon: Youtube, color: "from-red-500 to-red-600" },
@@ -29,14 +29,14 @@ export default function YeniGorevPage() {
     return (
         <div className="space-y-8">
             <div>
-                <h1 className="text-3xl font-black text-slate-900 mb-2">Yeni Görev Oluştur</h1>
-                <p className="text-slate-500">Sosyal medya hesaplarınız için görev oluşturun</p>
+                <h1 className="text-3xl font-black text-slate-900 mb-2 uppercase tracking-tight">Yeni Görev Oluştur</h1>
+                <p className="text-slate-500 font-medium">Sosyal medya hesaplarınız için görev oluşturun</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-8">
                 {/* Platform Selection */}
                 <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
-                    <h2 className="text-xl font-bold text-slate-900 mb-6">Platform Seçin</h2>
+                    <h2 className="text-xl font-bold text-slate-900 mb-6 uppercase tracking-wide">Platform Seçin</h2>
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                         {platforms.map((platform) => {
                             const Icon = platform.icon;
@@ -46,8 +46,8 @@ export default function YeniGorevPage() {
                                     type="button"
                                     onClick={() => setSelectedPlatform(platform.id)}
                                     className={`relative p-6 rounded-2xl border-2 transition-all hover:scale-105 ${selectedPlatform === platform.id
-                                            ? "border-violet-500 shadow-lg"
-                                            : "border-slate-200 hover:border-slate-300"
+                                        ? "border-orange-500 shadow-lg bg-orange-50/10"
+                                        : "border-slate-200 hover:border-slate-300"
                                         }`}
                                 >
                                     <div
@@ -64,17 +64,17 @@ export default function YeniGorevPage() {
 
                 {/* Task Details */}
                 {selectedPlatform && (
-                    <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100 space-y-6">
-                        <h2 className="text-xl font-bold text-slate-900">Görev Detayları</h2>
+                    <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100 space-y-6 animate-in slide-in-from-top-4 duration-300">
+                        <h2 className="text-xl font-bold text-slate-900 uppercase tracking-wide">Görev Detayları</h2>
 
                         <div>
-                            <label className="block text-sm font-bold text-slate-700 mb-2">
+                            <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">
                                 Görev Açıklaması
                             </label>
                             <textarea
                                 value={taskData.description}
                                 onChange={(e) => setTaskData({ ...taskData, description: e.target.value })}
-                                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent resize-none"
+                                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-none font-medium"
                                 rows={4}
                                 placeholder="Görev açıklamasını yazın..."
                                 required
@@ -82,21 +82,21 @@ export default function YeniGorevPage() {
                         </div>
 
                         <div>
-                            <label className="block text-sm font-bold text-slate-700 mb-2">
+                            <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">
                                 Hesap Adı / Kullanıcı Adı
                             </label>
                             <input
                                 type="text"
                                 value={taskData.accountName}
                                 onChange={(e) => setTaskData({ ...taskData, accountName: e.target.value })}
-                                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent font-medium"
                                 placeholder="@kullaniciadi"
                                 required
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-bold text-slate-700 mb-2">
+                            <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">
                                 Görev Ücreti (₺)
                             </label>
                             <input
@@ -105,7 +105,7 @@ export default function YeniGorevPage() {
                                 min="0"
                                 value={taskData.price}
                                 onChange={(e) => setTaskData({ ...taskData, price: e.target.value })}
-                                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent font-bold"
                                 placeholder="0.00"
                                 required
                             />
@@ -113,9 +113,9 @@ export default function YeniGorevPage() {
 
                         <Button
                             type="submit"
-                            className="w-full bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white rounded-xl h-12 text-base font-bold"
+                            className="w-full bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-700 hover:to-orange-600 text-white rounded-xl h-12 text-base font-black shadow-lg shadow-orange-100"
                         >
-                            Görevi Oluştur
+                            GÖREVİ OLUŞTUR
                         </Button>
                     </div>
                 )}

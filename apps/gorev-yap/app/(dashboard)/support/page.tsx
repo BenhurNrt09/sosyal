@@ -40,14 +40,14 @@ export default function SupportPage() {
     return (
         <div className="space-y-6">
             {/* Header */}
-            <div className="bg-gradient-to-r from-violet-600 to-purple-600 rounded-[2rem] p-8 text-white">
+            <div className="bg-gradient-to-r from-orange-600 to-orange-500 rounded-[2rem] p-8 text-white shadow-lg shadow-orange-100/50">
                 <div className="flex items-center gap-4 mb-4">
                     <div className="w-16 h-16 bg-white/20 backdrop-blur rounded-2xl flex items-center justify-center">
                         <MessageCircle className="w-8 h-8" />
                     </div>
                     <div>
                         <h1 className="text-3xl font-black">Destek Merkezi</h1>
-                        <p className="text-violet-100 font-medium">Size nasıl yardımcı olabiliriz?</p>
+                        <p className="text-orange-50 font-medium">Size nasıl yardımcı olabiliriz?</p>
                     </div>
                 </div>
             </div>
@@ -68,35 +68,35 @@ export default function SupportPage() {
 
             {/* Contact Info Grid */}
             <div className="grid md:grid-cols-3 gap-6">
-                <div className="bg-white rounded-[2rem] p-6 border border-slate-100">
-                    <div className="w-12 h-12 bg-violet-100 rounded-xl flex items-center justify-center text-violet-600 mb-4">
+                <div className="bg-white rounded-[2rem] p-6 border border-slate-100 hover:shadow-md transition-shadow">
+                    <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center text-orange-600 mb-4">
                         <Mail className="w-6 h-6" />
                     </div>
                     <h3 className="font-black text-slate-900 mb-2">E-posta</h3>
-                    <p className="text-sm text-slate-500 mb-3">7/24 destek için bize yazın</p>
-                    <a href="mailto:destek@sosyal.com" className="text-violet-600 font-bold text-sm hover:underline">
-                        destek@sosyal.com
+                    <p className="text-sm text-slate-500 mb-3 font-medium">7/24 destek için bize yazın</p>
+                    <a href="mailto:destek@dh.com" className="text-orange-600 font-black text-sm hover:underline">
+                        destek@dh.com
                     </a>
                 </div>
 
-                <div className="bg-white rounded-[2rem] p-6 border border-slate-100">
-                    <div className="w-12 h-12 bg-violet-100 rounded-xl flex items-center justify-center text-violet-600 mb-4">
+                <div className="bg-white rounded-[2rem] p-6 border border-slate-100 hover:shadow-md transition-shadow">
+                    <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center text-orange-600 mb-4">
                         <Phone className="w-6 h-6" />
                     </div>
                     <h3 className="font-black text-slate-900 mb-2">Telefon</h3>
-                    <p className="text-sm text-slate-500 mb-3">Mesai saatleri içinde arayın</p>
-                    <a href="tel:+905551234567" className="text-violet-600 font-bold text-sm hover:underline">
+                    <p className="text-sm text-slate-500 mb-3 font-medium">Mesai saatleri içinde arayın</p>
+                    <a href="tel:+905551234567" className="text-orange-600 font-black text-sm hover:underline">
                         +90 555 123 45 67
                     </a>
                 </div>
 
-                <div className="bg-white rounded-[2rem] p-6 border border-slate-100">
-                    <div className="w-12 h-12 bg-violet-100 rounded-xl flex items-center justify-center text-violet-600 mb-4">
+                <div className="bg-white rounded-[2rem] p-6 border border-slate-100 hover:shadow-md transition-shadow">
+                    <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center text-orange-600 mb-4">
                         <Clock className="w-6 h-6" />
                     </div>
                     <h3 className="font-black text-slate-900 mb-2">Çalışma Saatleri</h3>
-                    <p className="text-sm text-slate-500 mb-1">Pazartesi - Cuma</p>
-                    <p className="text-violet-600 font-bold text-sm">09:00 - 18:00</p>
+                    <p className="text-sm text-slate-500 mb-1 font-medium">Pazartesi - Cuma</p>
+                    <p className="text-orange-600 font-black text-sm">09:00 - 18:00</p>
                 </div>
             </div>
 
@@ -109,7 +109,7 @@ export default function SupportPage() {
                         <select
                             value={subject}
                             onChange={(e) => setSubject(e.target.value)}
-                            className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-violet-500 font-medium"
+                            className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-500 font-medium"
                             required
                         >
                             <option value="">Konu Seçin</option>
@@ -126,7 +126,7 @@ export default function SupportPage() {
                         <textarea
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
-                            className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-violet-500 font-medium resize-none"
+                            className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-500 font-medium resize-none"
                             rows={6}
                             placeholder="Sorununuzu detaylı olarak açıklayın..."
                             required
@@ -136,7 +136,7 @@ export default function SupportPage() {
                     <Button
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white rounded-xl font-bold h-12"
+                        className="w-full bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-700 hover:to-orange-600 text-white shadow-lg shadow-orange-100 rounded-xl font-bold h-12"
                     >
                         {isSubmitting ? (
                             <>
@@ -156,7 +156,7 @@ export default function SupportPage() {
             {/* FAQ Section */}
             <div className="bg-white rounded-[2rem] p-8 border border-slate-100">
                 <div className="flex items-center gap-3 mb-6">
-                    <HelpCircle className="w-6 h-6 text-violet-600" />
+                    <HelpCircle className="w-6 h-6 text-orange-600" />
                     <h2 className="text-2xl font-black text-slate-900">Sık Sorulan Sorular</h2>
                 </div>
 

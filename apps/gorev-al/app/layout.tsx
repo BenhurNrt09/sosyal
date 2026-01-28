@@ -6,7 +6,7 @@ import { cn } from "@repo/ui";
 const outfit = Outfit({ subsets: ["latin", "latin-ext"] });
 
 export const metadata: Metadata = {
-    title: "Görev Al | Sosyal Görev Platformu",
+    title: "Parala | Sosyal Görev Platformu",
     description: "Görevleri tamamla, kazanmaya başla.",
 };
 

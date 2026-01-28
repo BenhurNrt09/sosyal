@@ -34,6 +34,8 @@ export default function TasksPage() {
     const [tasks, setTasks] = useState<Task[]>([]);
     const [filter, setFilter] = useState<"all" | string>("all");
     const [loading, setLoading] = useState(true);
+    const [appliedTaskId, setAppliedTaskId] = useState<string | null>(null);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
 
     useEffect(() => {
         loadTasks();
@@ -73,7 +75,8 @@ export default function TasksPage() {
 
         const success = await applyForTask(taskId, user.id);
         if (success) {
-            alert("Göreve başvurunuz alındı! Admin onayından sonra işleme başlayabilirsiniz.");
+            setAppliedTaskId(taskId);
+            setShowSuccessModal(true);
             loadTasks();
         } else {
             alert("Başvuru sırasında bir hata oluştu. Muhtemelen zaten başvurdunuz.");
@@ -177,9 +180,13 @@ export default function TasksPage() {
                                 <div className="flex gap-2">
                                     <Button
                                         onClick={() => handleApply(task.id)}
-                                        className="flex-1 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white rounded-xl font-bold"
+                                        disabled={appliedTaskId === task.id}
+                                        className={`flex-1 rounded-xl font-bold transition-all ${appliedTaskId === task.id
+                                            ? "bg-emerald-500 text-white cursor-default"
+                                            : "bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white"
+                                            }`}
                                     >
-                                        Başvur
+                                        {appliedTaskId === task.id ? "Başvuruldu" : "Başvur"}
                                     </Button>
                                     <a
                                         href={task.link}
@@ -195,6 +202,27 @@ export default function TasksPage() {
                     })
                 )}
             </div>
+
+            {/* Success Modal */}
+            {showSuccessModal && (
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                    <div className="bg-white rounded-[2rem] p-8 w-full max-w-sm shadow-2xl animate-in zoom-in-95 duration-200 text-center">
+                        <div className="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                            <CheckCircle className="w-10 h-10" />
+                        </div>
+                        <h2 className="text-2xl font-black text-slate-900 mb-2">Başvuru Alındı!</h2>
+                        <p className="text-slate-500 font-medium mb-8">
+                            Göreve başvurunuz başarıyla alındı. Admin onayından sonra "Girdiğim Görevler" kısmından takibini yapabilirsiniz.
+                        </p>
+                        <Button
+                            onClick={() => setShowSuccessModal(false)}
+                            className="w-full bg-slate-900 hover:bg-slate-800 text-white rounded-xl h-12 font-bold"
+                        >
+                            Tamam
+                        </Button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

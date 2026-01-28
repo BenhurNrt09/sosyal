@@ -9,7 +9,7 @@ export default function DashboardLayout({
     children: React.ReactNode;
 }) {
     return (
-        <DashboardShell appName="SOSYAL" navItems={navItems}>
+        <DashboardShell appName="Dijital Havuz" navItems={navItems}>
             {children}
         </DashboardShell>
     );

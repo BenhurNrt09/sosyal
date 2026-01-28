@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Bell, CheckCircle, Info, AlertCircle, Wallet, MessageSquare, Clock } from "lucide-react";
 import { getNotifications, markAsRead } from "@/actions/notifications";
 import { Button } from "@repo/ui/src/components/ui/button";
+import { createClient } from "@repo/lib/src/supabase";
 
 export default function NotificationsPage() {
     const [notifications, setNotifications] = useState<any[]>([]);
@@ -11,10 +12,37 @@ export default function NotificationsPage() {
 
     useEffect(() => {
         loadNotifications();
+
+        // Realtime Subscription
+        const supabase = createClient();
+        let subscription: any;
+
+        async function setupRealtime() {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+                subscription = supabase
+                    .channel('user_notifications')
+                    .on('postgres_changes', {
+                        event: '*',
+                        schema: 'public',
+                        table: 'notifications',
+                        filter: `user_id=eq.${user.id}`
+                    }, () => {
+                        loadNotifications(false); // Silent reload
+                    })
+                    .subscribe();
+            }
+        }
+
+        setupRealtime();
+
+        return () => {
+            if (subscription) supabase.removeChannel(subscription);
+        };
     }, []);
 
-    async function loadNotifications() {
-        setLoading(true);
+    async function loadNotifications(showLoading = true) {
+        if (showLoading) setLoading(true);
         const result = await getNotifications();
         if (result.notifications) {
             setNotifications(result.notifications);
@@ -40,13 +68,13 @@ export default function NotificationsPage() {
     return (
         <div className="space-y-6 pb-12">
             <div>
-                <h1 className="text-3xl font-black text-slate-900 mb-2 tracking-tight">BİLDİRİMLER</h1>
+                <h1 className="text-3xl font-black text-slate-900 mb-2 tracking-tight uppercase">BİLDİRİMLER</h1>
                 <p className="text-slate-500 font-medium">Hesap hareketlerini ve duyuruları takip edin</p>
             </div>
 
             {loading ? (
                 <div className="flex justify-center py-12">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-violet-600"></div>
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600"></div>
                 </div>
             ) : notifications.length > 0 ? (
                 <div className="space-y-3">
@@ -55,12 +83,12 @@ export default function NotificationsPage() {
                             key={notification.id}
                             onClick={() => !notification.is_read && handleMarkAsRead(notification.id)}
                             className={`bg-white rounded-[1.5rem] p-6 border transition-all cursor-pointer ${notification.is_read
-                                    ? "border-slate-100 opacity-75"
-                                    : "border-violet-100 bg-violet-50/30 shadow-sm"
+                                ? "border-slate-100 opacity-75"
+                                : "border-orange-100 bg-orange-50/20 shadow-sm"
                                 }`}
                         >
                             <div className="flex gap-4">
-                                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${notification.is_read ? "bg-slate-100" : "bg-violet-100"
+                                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${notification.is_read ? "bg-slate-100" : "bg-orange-100"
                                     }`}>
                                     {getTypeIcon(notification.type)}
                                 </div>
@@ -80,7 +108,7 @@ export default function NotificationsPage() {
                                     </p>
                                 </div>
                                 {!notification.is_read && (
-                                    <div className="w-2 h-2 bg-violet-600 rounded-full mt-2"></div>
+                                    <div className="w-2 h-2 bg-orange-600 rounded-full mt-2"></div>
                                 )}
                             </div>
                         </div>

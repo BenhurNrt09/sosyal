@@ -103,7 +103,7 @@ export default function ProfilePage() {
                             onClick={() => setIsEditing(true)}
                             variant="outline"
                             size="sm"
-                            className="rounded-full text-violet-600 border-violet-200 hover:bg-violet-50"
+                            className="rounded-full text-orange-600 border-orange-200 hover:bg-orange-50"
                         >
                             Düzenle
                         </Button>
@@ -118,7 +118,7 @@ export default function ProfilePage() {
                                 <Input
                                     value={profileData.name}
                                     onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
-                                    className="rounded-xl border-slate-200 focus:ring-violet-500"
+                                    className="rounded-xl border-slate-200 focus:ring-orange-500"
                                     placeholder="Ad Soyad"
                                 />
                             ) : (
@@ -167,7 +167,7 @@ export default function ProfilePage() {
                                 <Input
                                     value={profileData.instagram}
                                     onChange={(e) => setProfileData({ ...profileData, instagram: e.target.value })}
-                                    className="rounded-xl border-slate-200 focus:ring-violet-500"
+                                    className="rounded-xl border-slate-200 focus:ring-orange-500"
                                     placeholder="@kullaniciadi"
                                 />
                             ) : (
@@ -189,7 +189,7 @@ export default function ProfilePage() {
                                 <Input
                                     value={profileData.tiktok}
                                     onChange={(e) => setProfileData({ ...profileData, tiktok: e.target.value })}
-                                    className="rounded-xl border-slate-200 focus:ring-violet-500"
+                                    className="rounded-xl border-slate-200 focus:ring-orange-500"
                                     placeholder="@kullaniciadi"
                                 />
                             ) : (
@@ -211,7 +211,7 @@ export default function ProfilePage() {
                                 <Input
                                     value={profileData.twitter}
                                     onChange={(e) => setProfileData({ ...profileData, twitter: e.target.value })}
-                                    className="rounded-xl border-slate-200 focus:ring-violet-500"
+                                    className="rounded-xl border-slate-200 focus:ring-orange-500"
                                     placeholder="@kullaniciadi"
                                 />
                             ) : (
@@ -233,7 +233,7 @@ export default function ProfilePage() {
                                 <Input
                                     value={profileData.youtube}
                                     onChange={(e) => setProfileData({ ...profileData, youtube: e.target.value })}
-                                    className="rounded-xl border-slate-200 focus:ring-violet-500"
+                                    className="rounded-xl border-slate-200 focus:ring-orange-500"
                                     placeholder="@kanaladi"
                                 />
                             ) : (
@@ -255,15 +255,15 @@ export default function ProfilePage() {
                         onClick={() => isEditing && setProfileData({ ...profileData, deviceType: "android" })}
                         disabled={!isEditing}
                         className={`border rounded-2xl p-6 flex flex-col items-center justify-center text-center transition-all ${profileData.deviceType === "android"
-                            ? "border-violet-500 bg-violet-50"
-                            : "border-slate-100 hover:border-violet-200 hover:bg-violet-50/50"
+                            ? "border-orange-500 bg-orange-50"
+                            : "border-slate-100 hover:border-orange-200 hover:bg-orange-50/50"
                             } ${!isEditing ? "cursor-default opacity-75" : "cursor-pointer"}`}
                     >
-                        <div className={`mb-3 transition-colors ${profileData.deviceType === "android" ? "text-violet-600" : "text-slate-300"
+                        <div className={`mb-3 transition-colors ${profileData.deviceType === "android" ? "text-orange-600" : "text-slate-300"
                             }`}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2" /><path d="M12 18h.01" /></svg>
                         </div>
-                        <span className={`font-bold transition-colors ${profileData.deviceType === "android" ? "text-violet-600" : "text-slate-400"
+                        <span className={`font-bold transition-colors ${profileData.deviceType === "android" ? "text-orange-600" : "text-slate-400"
                             }`}>ANDROID</span>
                     </button>
                     <button
@@ -271,15 +271,15 @@ export default function ProfilePage() {
                         onClick={() => isEditing && setProfileData({ ...profileData, deviceType: "iphone" })}
                         disabled={!isEditing}
                         className={`border rounded-2xl p-6 flex flex-col items-center justify-center text-center transition-all ${profileData.deviceType === "iphone"
-                            ? "border-violet-500 bg-violet-50"
-                            : "border-slate-100 hover:border-violet-200 hover:bg-violet-50/50"
+                            ? "border-orange-500 bg-orange-50"
+                            : "border-slate-100 hover:border-orange-200 hover:bg-orange-50/50"
                             } ${!isEditing ? "cursor-default opacity-75" : "cursor-pointer"}`}
                     >
-                        <div className={`mb-3 transition-colors ${profileData.deviceType === "iphone" ? "text-violet-600" : "text-slate-300"
+                        <div className={`mb-3 transition-colors ${profileData.deviceType === "iphone" ? "text-orange-600" : "text-slate-300"
                             }`}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06Z" /><path d="M10 2c1 .5 2 2 2 5" /></svg>
                         </div>
-                        <span className={`font-bold transition-colors ${profileData.deviceType === "iphone" ? "text-violet-600" : "text-slate-400"
+                        <span className={`font-bold transition-colors ${profileData.deviceType === "iphone" ? "text-orange-600" : "text-slate-400"
                             }`}>IPHONE</span>
                     </button>
                 </div>
@@ -299,7 +299,7 @@ export default function ProfilePage() {
                         <Button
                             onClick={handleSave}
                             disabled={isSaving}
-                            className="flex-1 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white rounded-xl font-bold"
+                            className="flex-1 bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-700 hover:to-orange-600 text-white rounded-xl font-bold shadow-lg shadow-orange-100/50"
                         >
                             {isSaving ? (
                                 <>
@@ -324,12 +324,12 @@ export default function ProfilePage() {
             <Link href="/support">
                 <div className="bg-slate-900 rounded-[2rem] p-8 shadow-lg flex items-center justify-between text-white overflow-hidden relative group cursor-pointer hover:bg-slate-800 transition-colors">
                     <div className="flex items-center gap-4 relative z-10">
-                        <div className="w-12 h-12 bg-violet-600 rounded-xl flex items-center justify-center shrink-0">
+                        <div className="w-12 h-12 bg-orange-600 rounded-xl flex items-center justify-center shrink-0 shadow-lg shadow-orange-900/20">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2v5Z" /><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1" /></svg>
                         </div>
                         <div>
                             <h3 className="font-black text-lg">DESTEK MERKEZİ</h3>
-                            <p className="text-xs text-slate-400 font-bold tracking-wide">HESAP İŞLEMLERİ & YARDIM</p>
+                            <p className="text-xs text-orange-400 font-bold tracking-wide">HESAP İŞLEMLERİ & YARDIM</p>
                         </div>
                     </div>
                     <div className="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center group-hover:bg-slate-700 transition-colors">
