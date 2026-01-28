@@ -27,9 +27,7 @@ export default function RootLoginPage() {
             <Card className="w-full max-w-md border-violet-100 shadow-xl shadow-violet-50/50">
                 <CardHeader className="space-y-1 pb-8">
                     <div className="flex justify-center mb-4">
-                        <div className="w-12 h-12 bg-gradient-to-br from-violet-500 to-violet-600 rounded-2xl flex items-center justify-center text-white font-black text-2xl shadow-lg shadow-violet-200">
-                            A
-                        </div>
+                        <img src="/logo-parala.jpg" alt="Parala" className="h-16 w-auto" />
                     </div>
                     <CardTitle className="text-3xl font-black text-center text-slate-900">Giriş Yap</CardTitle>
                     <CardDescription className="text-center font-medium">

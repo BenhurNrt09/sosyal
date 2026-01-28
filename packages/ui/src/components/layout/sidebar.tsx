@@ -15,15 +15,25 @@ interface SidebarProps {
         href: string;
         icon: any;
     }[];
+    userResult?: any;
 }
 
-export function Sidebar({ appName, logoUrl, items }: SidebarProps) {
+export function Sidebar({ appName, logoUrl, items, userResult }: SidebarProps) {
     const pathname = usePathname();
     const router = useRouter();
     const [userName, setUserName] = useState("Kullanıcı");
     const [userInitial, setUserInitial] = useState("K");
     const [unreadCount, setUnreadCount] = useState(0);
     const [isAdmin, setIsAdmin] = useState(false);
+
+    useEffect(() => {
+        if (userResult) {
+            const displayName = userResult.name || userResult.username || "Kullanıcı";
+            setUserName(displayName);
+            setUserInitial(displayName.charAt(0).toUpperCase());
+            setIsAdmin(userResult.role === 'admin');
+        }
+    }, [userResult]);
 
     useEffect(() => {
         const supabase = createClient();
@@ -34,19 +44,20 @@ export function Sidebar({ appName, logoUrl, items }: SidebarProps) {
             const { data: { user } } = await supabase.auth.getUser();
 
             if (user) {
-                // Initial Fetch
-                const { data: profile } = await supabase
-                    .from("profiles")
-                    .select("name, username, role")
-                    .eq("id", user.id)
-                    .single();
+                // Initial Fetch if userResult is not provided
+                if (!userResult) {
+                    const { data: profile } = await supabase
+                        .from("profiles")
+                        .select("name, username, role")
+                        .eq("id", user.id)
+                        .single();
 
-                if (profile) {
-                    // Force "ADMIN" for admin role, otherwise use display name
-                    const displayName = profile.role === 'admin' ? "ADMIN" : (profile.username || profile.name || user.email?.split('@')[0] || "Kullanıcı");
-                    setUserName(displayName);
-                    setUserInitial(displayName.charAt(0).toUpperCase());
-                    setIsAdmin(profile.role === 'admin');
+                    if (profile) {
+                        const displayName = profile.name || profile.username || user.email?.split('@')[0] || "Kullanıcı";
+                        setUserName(displayName);
+                        setUserInitial(displayName.charAt(0).toUpperCase());
+                        setIsAdmin(profile.role === 'admin');
+                    }
                 }
 
                 const { count } = await supabase
@@ -67,7 +78,7 @@ export function Sidebar({ appName, logoUrl, items }: SidebarProps) {
                         filter: `id=eq.${user.id}`
                     }, (payload) => {
                         const newProfile = payload.new as any;
-                        const displayName = newProfile.role === 'admin' ? "ADMIN" : (newProfile.username || newProfile.name || user.email?.split('@')[0] || "Kullanıcı");
+                        const displayName = newProfile.name || newProfile.username || user.email?.split('@')[0] || "Kullanıcı";
                         setUserName(displayName);
                         setUserInitial(displayName.charAt(0).toUpperCase());
                         setIsAdmin(newProfile.role === 'admin');

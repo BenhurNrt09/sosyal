@@ -62,7 +62,7 @@ export default function AdminSubmissionsPage() {
                             <tr key={sub.id} className="border-b border-slate-50">
                                 <td className="p-4">
                                     <p className="font-bold text-slate-900">{sub.profiles?.username}</p>
-                                    <p className="text-xs text-slate-500">{sub.profiles?.full_name}</p>
+                                    <p className="text-xs text-slate-500">{sub.profiles?.name}</p>
                                 </td>
                                 <td className="p-4">
                                     <p className="text-sm font-medium">{sub.tasks?.platform_name}</p>

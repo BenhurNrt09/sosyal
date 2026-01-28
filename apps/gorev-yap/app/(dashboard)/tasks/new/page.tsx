@@ -1,4 +1,4 @@
-import { createTask } from "../../../actions/task";
+import { createTask } from "@/actions/task";
 import { Button, Input, Label, Textarea, Card, CardContent, CardHeader, CardTitle, CardDescription } from "@repo/ui";
 import { AlertCircle } from "lucide-react";
 

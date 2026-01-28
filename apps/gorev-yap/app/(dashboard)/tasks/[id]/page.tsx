@@ -1,5 +1,5 @@
-import { getTaskWithSubmissions } from "../../../actions/management";
-import { reviewSubmission } from "../../../actions/review";
+import { getTaskWithSubmissions } from "@/actions/management";
+import { reviewSubmission } from "@/actions/review";
 import { Button, Card, CardContent, CardHeader, CardTitle, CardDescription } from "@repo/ui";
 import { CheckCircle2, XCircle, ExternalLink, Clock } from "lucide-react";
 

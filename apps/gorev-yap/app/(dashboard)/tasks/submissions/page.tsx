@@ -39,7 +39,7 @@ export default function ReviewSubmissionsPage() {
     if (loading) {
         return (
             <div className="flex items-center justify-center min-h-[400px]">
-                <div className="w-12 h-12 border-4 border-violet-600 border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-12 h-12 border-4 border-orange-600 border-t-transparent rounded-full animate-spin"></div>
             </div>
         );
     }
@@ -86,7 +86,7 @@ export default function ReviewSubmissionsPage() {
                                             </span>
                                         </td>
                                         <td className="py-4 px-4">
-                                            <a href={sub.proofData} target="_blank" className="text-violet-600 hover:underline flex items-center gap-1 text-sm font-bold">
+                                            <a href={sub.proofData} target="_blank" className="text-orange-600 hover:underline flex items-center gap-1 text-sm font-bold">
                                                 Kanıtı Gör <Eye className="w-3 h-3" />
                                             </a>
                                         </td>

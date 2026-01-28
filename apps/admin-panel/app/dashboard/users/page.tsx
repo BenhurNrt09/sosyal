@@ -9,6 +9,7 @@ import { updateUserRole, updateUserBalance, deleteUserAccount } from "@/actions/
 export default function UsersPage() {
     const [users, setUsers] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [stats, setStats] = useState({
         total: 0,
@@ -34,25 +35,31 @@ export default function UsersPage() {
 
     async function fetchUsers() {
         setLoading(true);
-        const supabase = createClient();
+        setError(null);
 
-        const { data, error } = await supabase
-            .from("profiles")
-            .select("*")
-            .order("created_at", { ascending: false });
+        try {
+            // Use admin action to bypass RLS
+            const { getAllUsers } = await import("@/actions/admin");
+            const result = await getAllUsers();
 
-        if (error) {
-            console.error("Error fetching users:", error);
-        } else {
-            setUsers(data || []);
-            const now = new Date();
-            const thirtyDaysAgo = new Date(now.getTime() - (30 * 24 * 60 * 60 * 1000));
+            if (result.error) {
+                console.error("Error fetching users:", result.error);
+                setError(result.error);
+                setUsers([]);
+            } else {
+                setUsers(result.data || []);
+                const now = new Date();
+                const thirtyDaysAgo = new Date(now.getTime() - (30 * 24 * 60 * 60 * 1000));
 
-            setStats({
-                total: data?.length || 0,
-                active: data?.filter(u => u.role !== 'banned').length || 0,
-                new: data?.filter(u => new Date(u.created_at) > thirtyDaysAgo).length || 0
-            });
+                setStats({
+                    total: result.data?.length || 0,
+                    active: result.data?.filter(u => u.role !== 'banned').length || 0,
+                    new: result.data?.filter(u => new Date(u.created_at) > thirtyDaysAgo).length || 0
+                });
+            }
+        } catch (err: any) {
+            console.error("Failed to call getAllUsers:", err);
+            setError("Sunucu hatası: " + err.message);
         }
         setLoading(false);
     }
@@ -246,6 +253,12 @@ export default function UsersPage() {
                 </div>
 
                 <div className="overflow-x-auto text-slate-900">
+                    {error && (
+                        <div className="mb-6 p-4 bg-red-50 border border-red-100 text-red-600 rounded-2xl font-bold flex items-center gap-3">
+                            <Ban className="w-5 h-5" />
+                            {error}
+                        </div>
+                    )}
                     {loading ? (
                         <div className="flex justify-center py-12">
                             <Loader2 className="h-8 w-8 animate-spin text-cyan-600" />

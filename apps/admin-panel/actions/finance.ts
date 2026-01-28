@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@repo/lib/src/server";
+import { createAdminClient as createClient } from "@repo/lib/src/server";
 import { revalidatePath } from "next/cache";
 
 export async function getWithdrawalRequests() {

@@ -22,31 +22,11 @@ export default function LoginPage() {
         setError("");
 
         try {
-            // Use Supabase to authenticate
-            const { createClient } = await import("@repo/lib/src/supabase");
-            const supabase = createClient();
+            const { signIn } = await import("../../actions/auth");
+            const result = await signIn(formData);
 
-            const { data, error: authError } = await supabase.auth.signInWithPassword({
-                email: formData.username.includes('@') ? formData.username : `${formData.username}@admin.local`,
-                password: formData.password
-            });
-
-            if (authError || !data.user) {
-                setError("Kullanıcı adı veya şifre hatalı");
-                setIsLoading(false);
-                return;
-            }
-
-            // Check if user has admin role
-            const { data: profile } = await supabase
-                .from("profiles")
-                .select("role")
-                .eq("id", data.user.id)
-                .single();
-
-            if (profile?.role !== 'admin') {
-                await supabase.auth.signOut();
-                setError("Bu hesap admin yetkisine sahip değil");
+            if (result.error) {
+                setError(result.error);
                 setIsLoading(false);
                 return;
             }
@@ -54,6 +34,7 @@ export default function LoginPage() {
             // Set admin cookie and redirect
             document.cookie = "admin_auth=true; path=/";
             router.push("/dashboard");
+            router.refresh();
         } catch (err) {
             setError("Giriş yapılırken bir hata oluştu");
             setIsLoading(false);

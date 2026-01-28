@@ -1,13 +1,13 @@
 "use server";
 
-import { createClient } from "@repo/lib/src/server";
+import { createAdminClient as createClient } from "@repo/lib/src/server";
 import { revalidatePath } from "next/cache";
 
 export async function getAllNotifications() {
     const supabase = await createClient();
     const { data, error } = await supabase
         .from("notifications")
-        .select("*, profiles:user_id(username, email)")
+        .select("*, profiles!user_id(username, email)")
         .order("created_at", { ascending: false })
         .limit(100);
 

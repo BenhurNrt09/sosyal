@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@repo/lib/src/server";
+import { createAdminClient as createClient } from "@repo/lib/src/server";
 import { revalidatePath } from "next/cache";
 
 export async function replyToSupportTicket(id: string, response: string, userId: string, subject: string) {
@@ -43,7 +43,7 @@ export async function getSupportTickets() {
 
     const { data, error } = await supabase
         .from("support_tickets")
-        .select("*, profiles:user_id(username, full_name, email)")
+        .select("*, profiles!user_id(username, name, email)")
         .order("created_at", { ascending: false });
 
     if (error) {

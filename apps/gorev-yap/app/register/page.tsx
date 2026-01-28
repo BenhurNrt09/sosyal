@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import Link from "next/link";
 import { signUp } from "../../actions/auth";
-import { Eye, EyeOff, Loader2, AlertCircle, CheckCircle } from "lucide-react";
+import { Eye, EyeOff, Loader2, AlertCircle, CheckCircle, Activity } from "lucide-react";
 import { Button, Input, Label, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@repo/ui";
 
 export default function RegisterPage() {
@@ -30,8 +30,8 @@ export default function RegisterPage() {
             <Card className="w-full max-w-md border-orange-100 shadow-xl shadow-orange-50/50">
                 <CardHeader className="space-y-1 pb-8">
                     <div className="flex justify-center mb-4">
-                        <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center text-white font-black text-2xl shadow-lg shadow-orange-200">
-                            D
+                        <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-orange-200/50 transform hover:scale-110 transition-transform duration-300">
+                            <Activity className="w-10 h-10" strokeWidth={3} />
                         </div>
                     </div>
                     <CardTitle className="text-3xl font-black text-center text-slate-900">

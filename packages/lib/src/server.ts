@@ -35,3 +35,33 @@ export function createClient() {
         }
     )
 }
+
+export function createAdminClient() {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+    if (!url || !serviceKey) {
+        console.error("CRITICAL: Supabase Admin Client initialized with missing ENV variables!", {
+            url: !!url,
+            serviceKey: !!serviceKey
+        });
+    }
+
+    return createServerClient<Database>(
+        url!,
+        serviceKey!,
+        {
+            cookies: {
+                get(name: string) {
+                    return cookies().get(name)?.value
+                },
+                set(name: string, value: string, options: CookieOptions) {
+                    // Service role client usually doesn't need to set cookies
+                },
+                remove(name: string, options: CookieOptions) {
+                    // Service role client usually doesn't need to remove cookies
+                },
+            },
+        }
+    )
+}

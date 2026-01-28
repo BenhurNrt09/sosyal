@@ -52,7 +52,7 @@ export async function signUp(formData: FormData) {
     const fullName = formData.get("fullName") as string;
     const username = formData.get("username") as string;
 
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
@@ -62,6 +62,7 @@ export async function signUp(formData: FormData) {
             data: {
                 full_name: fullName,
                 username: username,
+                name: fullName,
                 role: 'user',
             },
         },
@@ -71,22 +72,8 @@ export async function signUp(formData: FormData) {
         return { error: translateError(authError.message) };
     }
 
-    if (authData.user) {
-        const { error: profileError } = await supabase.from('profiles').insert({
-            id: authData.user.id,
-            username,
-            name: fullName,  // Also save to name field
-            full_name: fullName,
-            role: 'user',
-            balance: 0,
-            email: email
-        });
-
-        if (profileError) {
-            console.error("Profile creation error:", profileError);
-            return { error: "Profil hatası: " + translateError(profileError.message) };
-        }
-    }
+    // Profile is automatically created by database trigger (handle_new_user)
+    // No need to manually insert to avoid duplicate key errors
 
     return { success: true };
 }

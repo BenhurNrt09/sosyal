@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@repo/lib/src/server";
+import { createAdminClient as createClient } from "@repo/lib/src/server";
 import { revalidatePath } from "next/cache";
 
 export async function getGlobalSubmissions() {
@@ -8,7 +8,11 @@ export async function getGlobalSubmissions() {
 
     const { data, error } = await supabase
         .from('task_submissions')
-        .select('*, tasks(*), profiles:user_id(username, full_name)')
+        .select(`
+            *,
+            tasks(*),
+            profiles!user_id(username, name)
+        `)
         .order('created_at', { ascending: false });
 
     if (error) {

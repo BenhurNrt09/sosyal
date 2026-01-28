@@ -1,9 +1,6 @@
-import { getTaskById } from "../../../actions/tasks";
-import { submitProof } from "../../../actions/submissions";
-import { Button } from "@repo/ui/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@repo/ui/components/ui/card";
-import { Input } from "@repo/ui/components/ui/input"; // Need to create Input
-import { Textarea } from "@repo/ui/components/ui/textarea"; // Need to create Textarea
+import { getTaskById } from "@/actions/tasks";
+import { submitProof } from "@/actions/submissions";
+import { Button, Card, CardContent, CardHeader, CardTitle, CardDescription, Input, Textarea } from "@repo/ui";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
 
 // Placeholder for Input/Textarea if not exists, we use standard html elements or creates them.
