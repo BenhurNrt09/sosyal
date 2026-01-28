@@ -4,12 +4,15 @@ import {
     ListTodo,
     Wallet,
     ShieldAlert,
-    Settings
+    Settings,
+    CheckCircle,
+    HelpCircle,
+    Bell
 } from "lucide-react";
 
 export const navItems = [
     {
-        label: "Genel Bakış",
+        label: "Dashboard",
         href: "/dashboard",
         icon: LayoutDashboard,
     },
@@ -24,6 +27,11 @@ export const navItems = [
         icon: ListTodo,
     },
     {
+        label: "Başvurular & Kanıtlar",
+        href: "/dashboard/submissions",
+        icon: CheckCircle,
+    },
+    {
         label: "Finans",
         href: "/dashboard/finance",
         icon: Wallet,
@@ -32,6 +40,16 @@ export const navItems = [
         label: "Moderasyon",
         href: "/dashboard/moderation",
         icon: ShieldAlert,
+    },
+    {
+        label: "Destek",
+        href: "/dashboard/support",
+        icon: HelpCircle,
+    },
+    {
+        label: "Bildirimler",
+        href: "/dashboard/notifications",
+        icon: Bell,
     },
     {
         label: "Ayarlar",

@@ -3,18 +3,44 @@
 import { createClient } from "@repo/lib/src/server";
 import { redirect } from "next/navigation";
 
+// Simple error translation helper
+function translateError(message: string): string {
+    const translations: Record<string, string> = {
+        "Invalid login credentials": "Geçersiz giriş bilgileri",
+        "Email not confirmed": "E-posta onaylanmamış",
+        "User already registered": "Kullanıcı zaten kayıtlı",
+        "Invalid email": "Geçersiz e-posta adresi",
+        "Password should be at least 6 characters": "Şifre en az 6 karakter olmalıdır",
+        "User not found": "Kullanıcı bulunamadı",
+        "Email already registered": "E-posta zaten kayıtlı",
+    };
+
+    for (const [key, value] of Object.entries(translations)) {
+        if (message.includes(key)) {
+            return value;
+        }
+    }
+    return "Bir hata oluştu. Lütfen tekrar deneyin.";
+}
+
 export async function signIn(formData: FormData) {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
+    const rememberMe = formData.get("rememberMe") === "true";
     const supabase = createClient();
 
     const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
+        options: {
+            // If rememberMe is true, session persists; otherwise, it's a session-only login
+            // By default, Supabase persists sessions in localStorage
+            // For session-only, we would need custom handling or rely on browser session storage
+        }
     });
 
     if (error) {
-        return { error: error.message };
+        return { error: translateError(error.message) };
     }
 
     return redirect("/dashboard");
@@ -32,6 +58,7 @@ export async function signUp(formData: FormData) {
         email,
         password,
         options: {
+            emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/dashboard`,
             data: {
                 full_name: fullName,
                 username: username,
@@ -41,22 +68,25 @@ export async function signUp(formData: FormData) {
     });
 
     if (authError) {
-        return { error: authError.message };
+        return { error: translateError(authError.message) };
     }
 
     if (authData.user) {
         const { error: profileError } = await supabase.from('profiles').insert({
             id: authData.user.id,
             username,
+            name: fullName,  // Also save to name field
             full_name: fullName,
             role: 'user',
-            balance: 0
+            balance: 0,
+            email: email
         });
 
         if (profileError) {
-            return { error: "Profil hatası: " + profileError.message };
+            console.error("Profile creation error:", profileError);
+            return { error: "Profil hatası: " + translateError(profileError.message) };
         }
     }
 
-    return redirect("/dashboard");
+    return { success: true };
 }

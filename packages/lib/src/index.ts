@@ -1,8 +1,7 @@
 export * from './supabase';
 export * from './types_db';
-export * from './middleware';
-// Note: server.ts and client.ts should be imported specifically where needed due to environment constraints (node vs browser)
-// but we can export types if needed.
+// Note: middleware.ts has Next.js dependencies and should be imported directly where needed
+// export * from './middleware';
 
 export const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('tr-TR', {
@@ -10,3 +9,5 @@ export const formatCurrency = (amount: number) => {
         currency: 'TRY',
     }).format(amount);
 };
+
+export * from "./task-store";
