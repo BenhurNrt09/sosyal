@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CreditCard, Building2, Plus } from "lucide-react";
 import { Button } from "@repo/ui/src/components/ui/button";
 import { CreditCard3D } from "./credit-card-3d";
@@ -17,6 +17,16 @@ export default function WalletPage() {
     const [isCvvFocused, setIsCvvFocused] = useState(false);
     const [amount, setAmount] = useState("");
     const [isWithdrawing, setIsWithdrawing] = useState(false);
+    const [balance, setBalance] = useState(0);
+
+    useEffect(() => {
+        async function fetchBalance() {
+            const { getDashboardStats } = await import("@/actions/dashboard");
+            const stats = await getDashboardStats();
+            if (!(stats as any).error) setBalance((stats as any).balance);
+        }
+        fetchBalance();
+    }, []);
 
     const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value.replace(/\D/g, "");
@@ -51,7 +61,7 @@ export default function WalletPage() {
                 <div className="flex justify-between items-start mb-8">
                     <div>
                         <p className="text-sm opacity-90 mb-1 font-bold uppercase tracking-wider">Toplam Bakiye</p>
-                        <h2 className="text-4xl font-black">0.00₺</h2>
+                        <h2 className="text-4xl font-black">₺{balance.toFixed(2)}</h2>
                     </div>
                     <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
                         <CreditCard className="w-6 h-6" />
@@ -61,14 +71,20 @@ export default function WalletPage() {
                     <Button onClick={() => setIsWithdrawing(true)} className="flex-1 bg-white/20 hover:bg-white/30 backdrop-blur text-white border-0 font-bold h-12 rounded-xl">
                         PARA ÇEK
                     </Button>
-                    <Button className="flex-1 bg-white hover:bg-slate-50 text-orange-600 font-black h-12 rounded-xl shadow-md">
+                    <Button
+                        onClick={() => {
+                            const paymentForm = document.getElementById('payment-form');
+                            paymentForm?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }}
+                        className="flex-1 bg-white hover:bg-slate-50 text-orange-600 font-black h-12 rounded-xl shadow-md"
+                    >
                         BAKİYE YÜKLE
                     </Button>
                 </div>
             </div>
 
             {/* Payment Form */}
-            <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
+            <div id="payment-form" className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
                 <h2 className="text-xl font-black text-slate-900 mb-6 uppercase tracking-wide">BAKİYE YÜKLE</h2>
 
                 {/* Amount Input */}

@@ -22,7 +22,7 @@ const getStatusColor = (status: string) => {
     const colors: Record<string, string> = {
         pending: "bg-amber-100 text-amber-700",
         approved: "bg-blue-100 text-blue-700",
-        "in-progress": "bg-purple-100 text-purple-700",
+        "in-progress": "bg-cyan-100 text-cyan-700",
         completed: "bg-emerald-100 text-emerald-700",
         rejected: "bg-red-100 text-red-700",
     };
@@ -88,7 +88,7 @@ export default function AdminTasksPage() {
         return (
             <div className="flex items-center justify-center min-h-[400px]">
                 <div className="text-center">
-                    <div className="w-12 h-12 border-4 border-violet-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                    <div className="w-12 h-12 border-4 border-cyan-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
                     <p className="text-slate-500">Görevler yükleniyor...</p>
                 </div>
             </div>
@@ -116,9 +116,9 @@ export default function AdminTasksPage() {
                     <p className="text-xs text-blue-700 mb-1">Onaylandı</p>
                     <p className="text-2xl font-black text-blue-800">{statusCounts.approved}</p>
                 </div>
-                <div className="bg-purple-50 rounded-xl p-4 border border-purple-200">
-                    <p className="text-xs text-purple-700 mb-1">Devam Ediyor</p>
-                    <p className="text-2xl font-black text-purple-800">{statusCounts["in-progress"]}</p>
+                <div className="bg-cyan-50 rounded-xl p-4 border border-cyan-200">
+                    <p className="text-xs text-cyan-700 mb-1">Devam Ediyor</p>
+                    <p className="text-2xl font-black text-cyan-800">{statusCounts["in-progress"]}</p>
                 </div>
                 <div className="bg-emerald-50 rounded-xl p-4 border border-emerald-200">
                     <p className="text-xs text-emerald-700 mb-1">Tamamlandı</p>
@@ -144,8 +144,8 @@ export default function AdminTasksPage() {
                         key={key}
                         onClick={() => setFilter(key)}
                         className={`px-4 py-2 rounded-xl font-bold text-sm whitespace-nowrap transition-all ${filter === key
-                            ? "bg-violet-600 text-white shadow-md"
-                            : "bg-white text-slate-600 border border-slate-200 hover:border-violet-500"
+                            ? "bg-cyan-600 text-white shadow-md"
+                            : "bg-white text-slate-600 border border-slate-200 hover:border-cyan-500"
                             }`}
                     >
                         {label}
@@ -172,7 +172,7 @@ export default function AdminTasksPage() {
                             >
                                 <div className="flex items-start justify-between mb-4">
                                     <div className="flex items-center gap-3">
-                                        <div className="w-12 h-12 rounded-xl bg-violet-100 text-violet-600 flex items-center justify-center">
+                                        <div className="w-12 h-12 rounded-xl bg-cyan-100 text-cyan-600 flex items-center justify-center">
                                             <TaskIcon className="w-6 h-6" />
                                         </div>
                                         <div>
@@ -198,7 +198,7 @@ export default function AdminTasksPage() {
                                     </div>
                                     <div>
                                         <p className="text-xs text-slate-500 mb-1">Toplam</p>
-                                        <p className="font-bold text-violet-600">
+                                        <p className="font-bold text-cyan-600">
                                             {(Number(task.quantity) * Number(task.price)).toFixed(2)}₺
                                         </p>
                                     </div>
@@ -222,7 +222,7 @@ export default function AdminTasksPage() {
                                         href={task.link}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="text-sm text-violet-600 hover:text-violet-700 font-medium flex items-center gap-2"
+                                        className="text-sm text-cyan-600 hover:text-cyan-700 font-medium flex items-center gap-2"
                                     >
                                         <ExternalLink className="w-4 h-4" />
                                         Link
@@ -240,7 +240,7 @@ export default function AdminTasksPage() {
                                         {task.status === "approved" && (
                                             <Button
                                                 onClick={() => handleStatusUpdate(task.id, 'in-progress')}
-                                                className="bg-purple-600 hover:bg-purple-700 text-white text-sm px-4"
+                                                className="bg-cyan-600 hover:bg-cyan-700 text-white text-sm px-4"
                                             >
                                                 <Clock className="w-4 h-4 mr-1" />
                                                 Başlat

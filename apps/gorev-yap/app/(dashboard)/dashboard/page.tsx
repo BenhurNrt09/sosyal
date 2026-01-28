@@ -1,9 +1,40 @@
 "use client";
 
-import { Clock, Wallet, CheckCircle2, Bell, Megaphone } from "lucide-react";
+import { Clock, Wallet, CheckCircle2, Bell, Megaphone, Loader2 } from "lucide-react";
 import { Button } from "@repo/ui/src/components/ui/button";
+import { useState, useEffect } from "react";
+import { getDashboardStats, getLatestAnnouncements } from "@/actions/dashboard";
 
 export default function DashboardPage() {
+    const [stats, setStats] = useState({
+        balance: 0,
+        pendingTasks: 0,
+        completedTasks: 0,
+        unreadNotifications: 0
+    });
+    const [announcements, setAnnouncements] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchData() {
+            setLoading(true);
+            const statsData = await getDashboardStats();
+            const announcementsData = await getLatestAnnouncements();
+            if (!(statsData as any).error) setStats(statsData as any);
+            setAnnouncements(announcementsData);
+            setLoading(false);
+        }
+        fetchData();
+    }, []);
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center h-[60vh]">
+                <Loader2 className="w-12 h-12 text-orange-600 animate-spin" />
+            </div>
+        );
+    }
+
     return (
         <div className="space-y-8">
             {/* Stats Cards */}
@@ -16,7 +47,7 @@ export default function DashboardPage() {
                         </div>
                         <div>
                             <p className="text-[10px] font-black text-slate-400 mb-1 uppercase tracking-widest">Bekleyen Görevler</p>
-                            <h3 className="text-3xl font-black text-slate-900">0</h3>
+                            <h3 className="text-3xl font-black text-slate-900">{stats.pendingTasks}</h3>
                         </div>
                     </div>
                 </div>
@@ -29,7 +60,7 @@ export default function DashboardPage() {
                         </div>
                         <div>
                             <p className="text-[10px] font-black text-slate-400 mb-1 uppercase tracking-widest">Cüzdan</p>
-                            <h3 className="text-3xl font-black text-slate-900">0.00₺</h3>
+                            <h3 className="text-3xl font-black text-slate-900">₺{stats.balance.toFixed(2)}</h3>
                         </div>
                     </div>
                 </div>
@@ -42,7 +73,7 @@ export default function DashboardPage() {
                         </div>
                         <div>
                             <p className="text-[10px] font-black text-slate-400 mb-1 uppercase tracking-widest">Tamamlanan</p>
-                            <h3 className="text-3xl font-black text-slate-900">0</h3>
+                            <h3 className="text-3xl font-black text-slate-900">{stats.completedTasks}</h3>
                         </div>
                     </div>
                 </div>
@@ -55,7 +86,7 @@ export default function DashboardPage() {
                         </div>
                         <div>
                             <p className="text-[10px] font-black text-slate-400 mb-1 uppercase tracking-widest">Bildirimler</p>
-                            <h3 className="text-3xl font-black text-slate-900">0</h3>
+                            <h3 className="text-3xl font-black text-slate-900">{stats.unreadNotifications}</h3>
                         </div>
                     </div>
                 </div>
@@ -73,24 +104,28 @@ export default function DashboardPage() {
             <div>
                 <h2 className="text-xl font-black text-slate-900 mb-4 uppercase tracking-tight">Son Duyurular</h2>
                 <div className="bg-white rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden divide-y divide-slate-50">
-                    <div className="p-6 flex items-start gap-4 hover:bg-slate-50 transition-colors cursor-pointer group">
-                        <div className="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                            <Megaphone size={20} />
+                    {announcements.length > 0 ? announcements.map((ann, idx) => (
+                        <div key={idx} className="p-6 flex items-start gap-4 hover:bg-slate-50 transition-colors cursor-pointer group">
+                            <div className="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                                <Megaphone size={20} />
+                            </div>
+                            <div>
+                                <h3 className="font-bold text-slate-900 mb-1">{ann.title}</h3>
+                                <p className="text-xs text-slate-500 mb-1 line-clamp-1">{ann.message}</p>
+                                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{new Date(ann.created_at).toLocaleDateString('tr-TR')}</p>
+                            </div>
                         </div>
-                        <div>
-                            <h3 className="font-bold text-slate-900 mb-1">Yeni Instagram görevleri eklendi!</h3>
-                            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">2 saat önce</p>
+                    )) : (
+                        <div className="p-6 flex items-start gap-4 hover:bg-slate-50 transition-colors cursor-pointer group">
+                            <div className="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                                <Megaphone size={20} />
+                            </div>
+                            <div>
+                                <h3 className="font-bold text-slate-900 mb-1">Yeni Instagram görevleri eklendi!</h3>
+                                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">2 saat önce</p>
+                            </div>
                         </div>
-                    </div>
-                    <div className="p-6 flex items-start gap-4 hover:bg-slate-50 transition-colors cursor-pointer group">
-                        <div className="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                            <Megaphone size={20} />
-                        </div>
-                        <div>
-                            <h3 className="font-bold text-slate-900 mb-1">Para çekme limiti 100₺'ye düşürüldü</h3>
-                            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">1 gün önce</p>
-                        </div>
-                    </div>
+                    )}
                 </div>
             </div>
         </div>

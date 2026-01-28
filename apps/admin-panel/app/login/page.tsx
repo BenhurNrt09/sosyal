@@ -21,15 +21,41 @@ export default function LoginPage() {
         setIsLoading(true);
         setError("");
 
-        // Simulate network delay for a smoother feel
-        await new Promise(resolve => setTimeout(resolve, 800));
+        try {
+            // Use Supabase to authenticate
+            const { createClient } = await import("@repo/lib/src/supabase");
+            const supabase = createClient();
 
-        if (formData.username.trim() === "admin" && formData.password.trim() === "admin123") {
-            // Set a simple cookie to simulate session
+            const { data, error: authError } = await supabase.auth.signInWithPassword({
+                email: formData.username.includes('@') ? formData.username : `${formData.username}@admin.local`,
+                password: formData.password
+            });
+
+            if (authError || !data.user) {
+                setError("Kullanıcı adı veya şifre hatalı");
+                setIsLoading(false);
+                return;
+            }
+
+            // Check if user has admin role
+            const { data: profile } = await supabase
+                .from("profiles")
+                .select("role")
+                .eq("id", data.user.id)
+                .single();
+
+            if (profile?.role !== 'admin') {
+                await supabase.auth.signOut();
+                setError("Bu hesap admin yetkisine sahip değil");
+                setIsLoading(false);
+                return;
+            }
+
+            // Set admin cookie and redirect
             document.cookie = "admin_auth=true; path=/";
             router.push("/dashboard");
-        } else {
-            setError("Kullanıcı adı veya şifre hatalı");
+        } catch (err) {
+            setError("Giriş yapılırken bir hata oluştu");
             setIsLoading(false);
         }
     };

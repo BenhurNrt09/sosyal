@@ -8,11 +8,11 @@ export default function Home() {
     return (
         <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-slate-950 text-white">
             {/* Ambient Background Effects */}
-            <div className="absolute -left-20 -top-20 h-96 w-96 rounded-full bg-indigo-500/20 blur-[120px]" />
-            <div className="absolute -bottom-20 -right-20 h-96 w-96 rounded-full bg-violet-500/10 blur-[120px]" />
+            <div className="absolute -left-20 -top-20 h-96 w-96 rounded-full bg-cyan-500/20 blur-[120px]" />
+            <div className="absolute -bottom-20 -right-20 h-96 w-96 rounded-full bg-cyan-500/10 blur-[120px]" />
 
             <div className="relative z-10 container mx-auto flex flex-col items-center gap-8 px-4 text-center">
-                <div className="flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-indigo-500 to-violet-600 shadow-2xl shadow-indigo-500/30 ring-1 ring-white/20">
+                <div className="flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-cyan-500 to-cyan-600 shadow-2xl shadow-cyan-500/30 ring-1 ring-white/20">
                     <LayoutDashboard className="h-10 w-10 text-white" />
                 </div>
 
@@ -26,7 +26,7 @@ export default function Home() {
                 </div>
 
                 <div className="group relative">
-                    <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-indigo-500 to-violet-600 opacity-70 blur transition duration-200 group-hover:opacity-100" />
+                    <div className="absolute -inset-1 rounded-full bg-cyan-600 opacity-70 blur transition duration-200 group-hover:opacity-100" />
                     <Link href="/login">
                         <Button size="lg" className="relative bg-slate-900 border-slate-800 text-white hover:bg-slate-800 space-x-2 pl-8 pr-6 h-12 rounded-full text-base">
                             <span>Admin Girişi</span>

@@ -17,7 +17,7 @@ export default function SettingsPage() {
                     <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Ayarlar</h1>
                     <p className="mt-1 text-slate-500 dark:text-slate-400">Platform ayarlarını yapılandırın</p>
                 </div>
-                <Button className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white hover:from-indigo-700 hover:to-violet-700">
+                <Button className="bg-cyan-600 hover:bg-cyan-700 text-white shadow-lg shadow-cyan-200">
                     <Save className="mr-2 h-4 w-4" />
                     Kaydet
                 </Button>
@@ -55,7 +55,7 @@ export default function SettingsPage() {
                 {/* Bildirim Ayarları */}
                 <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/50 dark:backdrop-blur-sm">
                     <div className="mb-4 flex items-center gap-3">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-100 text-violet-600 dark:bg-violet-900/20 dark:text-violet-400">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-100 text-cyan-600 dark:bg-cyan-900/20 dark:text-cyan-400">
                             <Bell className="h-5 w-5" />
                         </div>
                         <h2 className="text-lg font-bold text-slate-900 dark:text-white">Bildirim Ayarları</h2>
@@ -68,7 +68,7 @@ export default function SettingsPage() {
                             </div>
                             <button
                                 onClick={() => setEmailNotifications(!emailNotifications)}
-                                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${emailNotifications ? 'bg-indigo-600' : 'bg-slate-700'
+                                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${emailNotifications ? 'bg-cyan-600' : 'bg-slate-700'
                                     }`}
                             >
                                 <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${emailNotifications ? 'translate-x-6' : 'translate-x-1'
@@ -82,7 +82,7 @@ export default function SettingsPage() {
                             </div>
                             <button
                                 onClick={() => setTaskApprovals(!taskApprovals)}
-                                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${taskApprovals ? 'bg-indigo-600' : 'bg-slate-700'
+                                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${taskApprovals ? 'bg-cyan-600' : 'bg-slate-700'
                                     }`}
                             >
                                 <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${taskApprovals ? 'translate-x-6' : 'translate-x-1'
@@ -142,7 +142,7 @@ export default function SettingsPage() {
                             </div>
                             <button
                                 onClick={toggleTheme}
-                                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${theme === 'dark' ? 'bg-indigo-600' : 'bg-slate-700'
+                                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${theme === 'dark' ? 'bg-cyan-600' : 'bg-slate-700'
                                     }`}
                             >
                                 <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${theme === 'dark' ? 'translate-x-6' : 'translate-x-1'

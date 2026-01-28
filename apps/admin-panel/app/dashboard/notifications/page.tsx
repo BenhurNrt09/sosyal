@@ -93,7 +93,7 @@ export default function AdminNotificationsPage() {
         switch (type) {
             case 'success': return <CheckCircle className="w-4 h-4 text-green-500" />;
             case 'payment': return <Wallet className="w-4 h-4 text-blue-500" />;
-            case 'support': return <MessageSquare className="w-4 h-4 text-purple-500" />;
+            case 'support': return <MessageSquare className="w-4 h-4 text-cyan-500" />;
             case 'warning': return <AlertCircle className="w-4 h-4 text-orange-500" />;
             default: return <Info className="w-4 h-4 text-slate-400" />;
         }
