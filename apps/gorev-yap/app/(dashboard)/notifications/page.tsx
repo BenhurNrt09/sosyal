@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Bell, CheckCircle, Info, AlertCircle, Wallet, MessageSquare, Clock } from "lucide-react";
-import { getNotifications, markAsRead } from "@/actions/notifications";
+import { Bell, CheckCircle, Info, AlertCircle, Wallet, MessageSquare, Clock, CheckCheck } from "lucide-react";
+import { getNotifications, markAsRead, markAllAsRead } from "@/actions/notifications";
 import { Button } from "@repo/ui/src/components/ui/button";
 import { createClient } from "@repo/lib/src/supabase";
 
@@ -51,8 +51,15 @@ export default function NotificationsPage() {
     }
 
     const handleMarkAsRead = async (id: string) => {
+        // Immediate UI update
+        setNotifications(prev => prev.map(n => n.id === id ? { ...n, is_read: true } : n));
         await markAsRead(id);
-        setNotifications(notifications.map(n => n.id === id ? { ...n, is_read: true } : n));
+    };
+
+    const handleMarkAllAsRead = async () => {
+        // Immediate UI update
+        setNotifications(prev => prev.map(n => ({ ...n, is_read: true })));
+        await markAllAsRead();
     };
 
     const getTypeIcon = (type: string) => {
@@ -67,9 +74,20 @@ export default function NotificationsPage() {
 
     return (
         <div className="space-y-6 pb-12">
-            <div>
-                <h1 className="text-3xl font-black text-slate-900 mb-2 tracking-tight uppercase">BİLDİRİMLER</h1>
-                <p className="text-slate-500 font-medium">Hesap hareketlerini ve duyuruları takip edin</p>
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                    <h1 className="text-3xl font-black text-slate-900 mb-2 tracking-tight uppercase">BİLDİRİMLER</h1>
+                    <p className="text-slate-500 font-medium">Hesap hareketlerini ve duyuruları takip edin</p>
+                </div>
+                {notifications.some(n => !n.is_read) && (
+                    <Button
+                        onClick={handleMarkAllAsRead}
+                        className="bg-orange-600 hover:bg-orange-700 text-white rounded-2xl font-black shadow-lg shadow-orange-200 gap-2 uppercase tracking-tight py-6 px-8 h-auto"
+                    >
+                        <CheckCheck className="w-5 h-5" />
+                        TÜMÜNÜ OKUNDU İŞARETLE
+                    </Button>
+                )}
             </div>
 
             {loading ? (

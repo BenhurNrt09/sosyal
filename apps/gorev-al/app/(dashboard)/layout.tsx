@@ -9,8 +9,8 @@ export default function DashboardLayout({
     children: React.ReactNode;
 }) {
     return (
-        <DashboardShell appName="Parala" logoUrl="/logo-parala.png" navItems={navItems}>
+        <DashboardShell appName="PARALA" logoUrl="/logo-parala.jpg" navItems={navItems}>
             {children}
         </DashboardShell>
     );
-}   
+}

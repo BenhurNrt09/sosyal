@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { CheckCircle, XCircle, Clock, AlertTriangle, ShieldCheck, DollarSign } from "lucide-react";
-import { Button } from "@repo/ui/src/components/ui/button";
+import { CheckCircle, XCircle, Clock, AlertTriangle, ShieldCheck, DollarSign, Loader2, User, FileText, CheckCircle2 } from "lucide-react";
+import { Button, Card, CardContent } from "@repo/ui";
 import { getGlobalSubmissions, updateGlobalSubmissionStatus, completeSubmissionAndPay } from "@/actions/submissions";
 
 export default function AdminSubmissionsPage() {
@@ -37,77 +37,110 @@ export default function AdminSubmissionsPage() {
         }
     };
 
-    if (loading) return <div className="p-8">Yükleniyor...</div>;
-
     return (
-        <div className="p-8 space-y-6">
-            <div>
-                <h1 className="text-3xl font-black text-slate-900">Global Başvurular & Kanıtlar</h1>
-                <p className="text-slate-500 text-sm">Tüm sistemdeki başvuru ve ödeme süreçlerini yönetin.</p>
+        <div className="space-y-8">
+            <div className="flex items-center justify-between">
+                <div>
+                    <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight uppercase">Panel</h1>
+                    <p className="mt-1 text-slate-500 dark:text-slate-400 font-medium tracking-tight">Global Başvurular & Kanıt Yönetimi</p>
+                </div>
             </div>
 
-            <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100">
-                <table className="w-full text-left">
-                    <thead className="bg-slate-50 border-b border-slate-100">
-                        <tr>
-                            <th className="p-4 font-bold text-slate-600">Kullanıcı</th>
-                            <th className="p-4 font-bold text-slate-600">Görev</th>
-                            <th className="p-4 font-bold text-slate-600">Durum</th>
-                            <th className="p-4 font-bold text-slate-600">Kanıt</th>
-                            <th className="p-4 font-bold text-slate-600 text-right">İşlemler</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {submissions.map((sub) => (
-                            <tr key={sub.id} className="border-b border-slate-50">
-                                <td className="p-4">
-                                    <p className="font-bold text-slate-900">{sub.profiles?.username}</p>
-                                    <p className="text-xs text-slate-500">{sub.profiles?.name}</p>
-                                </td>
-                                <td className="p-4">
-                                    <p className="text-sm font-medium">{sub.tasks?.platform_name}</p>
-                                    <p className="text-xs text-slate-500">{sub.tasks?.task_type_name}</p>
-                                </td>
-                                <td className="p-4">
-                                    <span className={`px-2 py-1 rounded-full text-[10px] font-black uppercase ${sub.status === 'pending' ? 'bg-amber-100 text-amber-700' :
-                                        sub.status === 'approved' ? 'bg-cyan-100 text-cyan-700' :
-                                            sub.status === 'submitted' ? 'bg-cyan-50 text-cyan-600' :
-                                                sub.status === 'creator_approved' ? 'bg-emerald-100 text-emerald-700' :
-                                                    sub.status === 'completed' ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'
-                                        }`}>
-                                        {sub.status}
-                                    </span>
-                                </td>
-                                <td className="p-4">
-                                    <span className="text-xs italic text-slate-500 truncate max-w-[100px] block">
-                                        {sub.proof_data || '-'}
-                                    </span>
-                                </td>
-                                <td className="p-4 text-right">
-                                    <div className="flex justify-end gap-2">
-                                        {sub.status === 'pending' && (
-                                            <Button
-                                                onClick={() => handleApproveApplication(sub.id)}
-                                                className="bg-cyan-600 text-white text-xs h-8 px-3 rounded-lg flex items-center gap-1 shadow-md shadow-cyan-100 hover:bg-cyan-700"
-                                            >
-                                                <ShieldCheck className="w-3 h-3" /> Başvuru Onayla
-                                            </Button>
-                                        )}
-                                        {sub.status === 'creator_approved' && (
-                                            <Button
-                                                onClick={() => handleFinalApproval(sub.id)}
-                                                className="bg-emerald-600 text-white text-xs h-8 px-3 rounded-lg flex items-center gap-1 shadow-lg shadow-emerald-100"
-                                            >
-                                                <DollarSign className="w-3 h-3" /> Ödemeyi Tamamla
-                                            </Button>
-                                        )}
-                                    </div>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+            <Card className="rounded-[2.5rem] border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900/50 dark:backdrop-blur-sm shadow-sm overflow-hidden">
+                <CardContent className="p-0">
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left border-collapse">
+                            <thead>
+                                <tr className="border-b border-slate-50 dark:border-slate-800">
+                                    <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">KULLANICI</th>
+                                    <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">GÖREV DETAYI</th>
+                                    <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">DURUM</th>
+                                    <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">KANIT VERİSİ</th>
+                                    <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">İŞLEMLER</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-slate-50 dark:divide-slate-800">
+                                {loading ? (
+                                    <tr>
+                                        <td colSpan={5} className="py-24 text-center">
+                                            <Loader2 className="w-12 h-12 animate-spin text-cyan-600 mx-auto mb-4" />
+                                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Başvurular yükleniyor...</p>
+                                        </td>
+                                    </tr>
+                                ) : submissions.length === 0 ? (
+                                    <tr>
+                                        <td colSpan={5} className="py-24 text-center">
+                                            <div className="w-20 h-20 bg-slate-50 dark:bg-slate-800/50 rounded-[2rem] flex items-center justify-center mx-auto mb-6">
+                                                <FileText className="w-10 h-10 text-slate-300" />
+                                            </div>
+                                            <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest">Henüz bir başvuru bulunmuyor.</p>
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    submissions.map((sub) => (
+                                        <tr key={sub.id} className="group hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                                            <td className="px-8 py-7">
+                                                <div className="flex items-center gap-4">
+                                                    <div className="h-11 w-11 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center font-black text-slate-400 shadow-sm border border-white/10">
+                                                        {(sub.profiles?.username || 'U').charAt(0).toUpperCase()}
+                                                    </div>
+                                                    <div>
+                                                        <div className="font-black text-slate-900 dark:text-white text-sm tracking-tight">{sub.profiles?.username}</div>
+                                                        <div className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">{sub.profiles?.name || 'İsimsiz'}</div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td className="px-8 py-7">
+                                                <div className="text-sm font-black text-slate-800 dark:text-slate-200">{sub.tasks?.platform_name}</div>
+                                                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">{sub.tasks?.task_type_name}</div>
+                                            </td>
+                                            <td className="px-8 py-7 text-center">
+                                                <span className={`px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest inline-flex items-center gap-1.5 ${sub.status === 'pending' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/20 dark:text-amber-400' :
+                                                    sub.status === 'approved' ? 'bg-cyan-100 text-cyan-700 dark:bg-cyan-900/20 dark:text-cyan-400' :
+                                                        sub.status === 'submitted' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400' :
+                                                            sub.status === 'creator_approved' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400' :
+                                                                sub.status === 'completed' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400' : 'bg-rose-100 text-rose-700 dark:bg-rose-900/20 dark:text-rose-400'
+                                                    }`}>
+                                                    <div className={`w-1 h-1 rounded-full ${sub.status === 'pending' ? 'bg-amber-500' :
+                                                        (sub.status === 'approved' || sub.status === 'submitted') ? 'bg-cyan-500' :
+                                                            (sub.status === 'creator_approved' || sub.status === 'completed') ? 'bg-emerald-500' : 'bg-rose-500'
+                                                        }`} />
+                                                    {sub.status.replace('_', ' ')}
+                                                </span>
+                                            </td>
+                                            <td className="px-8 py-7">
+                                                <div className="text-xs font-medium text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/50 p-3 rounded-xl border border-slate-100 dark:border-slate-800 max-w-[200px] truncate">
+                                                    {sub.proof_data || <span className="text-[10px] font-black opacity-30">VERİ YOK</span>}
+                                                </div>
+                                            </td>
+                                            <td className="px-8 py-7 text-right">
+                                                <div className="flex justify-end gap-2">
+                                                    {sub.status === 'pending' && (
+                                                        <button
+                                                            onClick={() => handleApproveApplication(sub.id)}
+                                                            className="h-10 px-5 rounded-xl bg-cyan-600 hover:bg-cyan-700 text-white font-black text-[10px] uppercase tracking-widest shadow-lg shadow-cyan-200 transition-all flex items-center gap-2"
+                                                        >
+                                                            <CheckCircle2 className="w-3.5 h-3.5" /> ONAYLA
+                                                        </button>
+                                                    )}
+                                                    {sub.status === 'creator_approved' && (
+                                                        <button
+                                                            onClick={() => handleFinalApproval(sub.id)}
+                                                            className="h-10 px-5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-[10px] uppercase tracking-widest shadow-lg shadow-emerald-200 transition-all flex items-center gap-2"
+                                                        >
+                                                            <DollarSign className="w-3.5 h-3.5" /> ÖDEMEYİ YAP
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                </CardContent>
+            </Card>
         </div>
     );
 }

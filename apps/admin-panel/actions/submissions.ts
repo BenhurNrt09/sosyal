@@ -40,21 +40,18 @@ export async function updateGlobalSubmissionStatus(id: string, status: string) {
 export async function completeSubmissionAndPay(id: string) {
     const supabase = await createClient();
 
-    // In a real scenario, we'd call the completeTaskAndPay logic here
-    // For now, let's assume it's handled via the lib but we need service role access
-
     // Fetch submission to get amount and user_id
-    const { data: sub } = await supabase
+    const { data: sub, error: fetchError } = await supabase
         .from('task_submissions')
         .select('*, tasks(price)')
         .eq('id', id)
         .single();
 
-    if (!sub) return { error: "Submission not found" };
+    if (fetchError || !sub) return { error: "Başvuru bulunamadı veya bir hata oluştu." };
 
     const amount = sub.tasks?.price || 0;
 
-    // Update status
+    // 1. Update status to completed
     const { error: updateError } = await supabase
         .from('task_submissions')
         .update({ status: 'completed' })
@@ -62,14 +59,22 @@ export async function completeSubmissionAndPay(id: string) {
 
     if (updateError) return { error: updateError.message };
 
-    // Add balance to user
+    // 2. Add balance to user using RPC
+    // Note: increment_balance is more atomic and safer than manual update
     const { error: balanceError } = await supabase.rpc('increment_balance', {
         user_id: sub.user_id,
         amount: amount
     });
 
-    if (balanceError) return { error: balanceError.message };
+    if (balanceError) {
+        console.error("Balance Update Error:", balanceError);
+        // If RPC fails (maybe not created yet), attempt manual fallback
+        // but it's better to ensure RPC exists.
+        return { error: "Bakiye güncellenemedi: " + balanceError.message };
+    }
 
     revalidatePath("/dashboard/submissions");
+    revalidatePath("/dashboard/finance");
+    revalidatePath("/dashboard/users"); // Ensure users page is updated
     return { success: true };
 }

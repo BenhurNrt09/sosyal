@@ -60,17 +60,17 @@ export async function createTask(taskData: {
         return { error: "Görev oluşturulurken bir hata oluştu" };
     }
 
-    // Bakiyeden düş
-    const { error: balanceError } = await supabase
-        .from("profiles")
-        .update({ balance: profile.balance - totalCost })
-        .eq("id", user.id);
+    // Bakiyeden düş (Atomic RPC)
+    const { error: balanceError } = await supabase.rpc('increment_balance', {
+        user_id: user.id,
+        amount: -totalCost // Negatif değer ile bakiyeyi düşürür
+    });
 
     if (balanceError) {
         console.error("Balance deduction error:", balanceError);
         // Rollback task
         await supabase.from("tasks").delete().eq("id", task.id);
-        return { error: "Bakiye güncellenirken hata oluştu" };
+        return { error: "Bakiye güncellenirken hata oluştu: " + balanceError.message };
     }
 
     // TÜM PARALA KULLANICILARINI BİLGİLENDİR (role = 'user')

@@ -54,7 +54,7 @@ export default function RegisterPage() {
                                 <p className="text-sm font-medium opacity-90">Lütfen giriş yaparak devam edin.</p>
                             </div>
                             <Button asChild className="w-full bg-orange-600 hover:bg-orange-700 text-white font-black rounded-xl h-12 shadow-lg shadow-orange-100 transition-all active:scale-[0.98]">
-                                <Link href="/login">Giriş Yap</Link>
+                                <Link href="/">Giriş Yap</Link>
                             </Button>
                         </div>
                     ) : (
@@ -153,7 +153,7 @@ export default function RegisterPage() {
                     <CardFooter className="flex justify-center border-t border-slate-50 pt-6">
                         <div className="text-sm text-slate-500 font-medium">
                             Zaten hesabın var mı?{" "}
-                            <Link href="/login" className="text-orange-600 hover:text-orange-700 font-black">
+                            <Link href="/" className="text-orange-600 hover:text-orange-700 font-black">
                                 Giriş Yap
                             </Link>
                         </div>

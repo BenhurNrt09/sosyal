@@ -10,7 +10,7 @@ import {
 
 export const navItems = [
     {
-        label: "Dashboard",
+        label: "Panel",
         href: "/dashboard",
         icon: LayoutDashboard,
     },

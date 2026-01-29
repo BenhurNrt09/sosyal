@@ -60,8 +60,8 @@ export default function DashboardPage() {
         <div className="space-y-6">
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-3xl font-bold text-slate-900">Dashboard</h1>
-                    <p className="text-slate-500">Sistem genelindeki verilere göz atın</p>
+                    <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight uppercase">Panel</h1>
+                    <p className="text-slate-500 dark:text-slate-400 font-medium">Sistem genelindeki verilere göz atın</p>
                 </div>
                 <div className="bg-emerald-50 text-emerald-600 px-4 py-2 rounded-xl text-xs font-bold border border-emerald-100 flex items-center gap-2">
                     <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
@@ -98,22 +98,22 @@ export default function DashboardPage() {
 
             <div className="grid gap-6 md:grid-cols-2">
                 {/* Son Üyelikler */}
-                <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
+                <div className="bg-white dark:bg-slate-900/50 dark:backdrop-blur-sm rounded-[2rem] p-8 shadow-sm border border-slate-100 dark:border-slate-800">
                     <div className="flex items-center justify-between mb-6">
-                        <h3 className="text-lg font-bold text-slate-900">Son Üyelikler</h3>
+                        <h3 className="text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">Son Üyelikler</h3>
                         <Link href="/dashboard/users" className="text-xs font-bold text-cyan-600 hover:underline flex items-center">
                             Tümünü Gör <ArrowRight className="ml-1 w-3 h-3" />
                         </Link>
                     </div>
                     <div className="space-y-4">
                         {stats?.recentUsers?.map((u: any) => (
-                            <div key={u.id} className="flex items-center justify-between p-4 rounded-2xl bg-slate-50 border border-slate-50 transition-all hover:bg-slate-100">
+                            <div key={u.id} className="flex items-center justify-between p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/30 border border-slate-50 dark:border-slate-800 transition-all hover:bg-slate-100 dark:hover:bg-slate-800/50">
                                 <div className="flex items-center gap-3">
                                     <div className="w-10 h-10 rounded-xl bg-cyan-100 text-cyan-600 flex items-center justify-center font-bold">
                                         {(u.username || 'U').charAt(0).toUpperCase()}
                                     </div>
                                     <div>
-                                        <div className="text-sm font-bold text-slate-900">{u.username || 'Kullanıcı'}</div>
+                                        <div className="text-sm font-bold text-slate-900 dark:text-white">{u.username || 'Kullanıcı'}</div>
                                         <div className="text-[10px] text-slate-400">{u.email}</div>
                                     </div>
                                 </div>
@@ -126,22 +126,22 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Son Çekim Talepleri */}
-                <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
+                <div className="bg-white dark:bg-slate-900/50 dark:backdrop-blur-sm rounded-[2rem] p-8 shadow-sm border border-slate-100 dark:border-slate-800">
                     <div className="flex items-center justify-between mb-6">
-                        <h3 className="text-lg font-bold text-slate-900">Son Çekim Talepleri</h3>
+                        <h3 className="text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">Son Çekim Talepleri</h3>
                         <Link href="/dashboard/finance" className="text-xs font-bold text-cyan-600 hover:underline flex items-center">
                             Tümünü Gör <ArrowRight className="ml-1 w-3 h-3" />
                         </Link>
                     </div>
                     <div className="space-y-4">
                         {stats?.recentWithdrawals?.map((w: any) => (
-                            <div key={w.id} className="flex items-center justify-between p-4 rounded-2xl bg-slate-50 border border-slate-50 transition-all hover:bg-slate-100">
+                            <div key={w.id} className="flex items-center justify-between p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/30 border border-slate-50 dark:border-slate-800 transition-all hover:bg-slate-100 dark:hover:bg-slate-800/50">
                                 <div className="flex items-center gap-3">
                                     <div className="w-10 h-10 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center">
                                         <Wallet className="w-5 h-5" />
                                     </div>
                                     <div>
-                                        <div className="text-sm font-bold text-slate-900">{w.profiles?.username || 'Kullanıcı'}</div>
+                                        <div className="text-sm font-bold text-slate-900 dark:text-white">{w.profiles?.username || 'Kullanıcı'}</div>
                                         <div className="text-[10px] text-slate-400">{w.bank_name} - {w.amount}₺</div>
                                     </div>
                                 </div>
@@ -154,7 +154,7 @@ export default function DashboardPage() {
                             </div>
                         ))}
                         {(!stats?.recentWithdrawals || stats.recentWithdrawals.length === 0) && (
-                            <div className="flex h-32 items-center justify-center rounded-2xl border border-dashed border-slate-200 text-slate-400 text-sm font-medium">
+                            <div className="flex h-32 items-center justify-center rounded-2xl border border-dashed border-slate-200 dark:border-slate-800 text-slate-400 text-sm font-medium">
                                 Talep bulunamadı.
                             </div>
                         )}
@@ -164,21 +164,21 @@ export default function DashboardPage() {
 
             <div className="grid gap-6 md:grid-cols-2">
                 {/* Son Bildirimler */}
-                <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
+                <div className="bg-white dark:bg-slate-900/50 dark:backdrop-blur-sm rounded-[2rem] p-8 shadow-sm border border-slate-100 dark:border-slate-800">
                     <div className="flex items-center justify-between mb-6">
-                        <h3 className="text-lg font-bold text-slate-900">Son Bildirimler</h3>
+                        <h3 className="text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">Son Bildirimler</h3>
                         <Link href="/dashboard/notifications" className="text-xs font-bold text-cyan-600 hover:underline flex items-center">
                             Tümünü Gör <ArrowRight className="ml-1 w-3 h-3" />
                         </Link>
                     </div>
                     <div className="space-y-4">
                         {recentNotifications.map((n) => (
-                            <div key={n.id} className="flex items-start gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-50 transition-all hover:bg-slate-100">
+                            <div key={n.id} className="flex items-start gap-3 p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/30 border border-slate-50 dark:border-slate-800 transition-all hover:bg-slate-100 dark:hover:bg-slate-800/50">
                                 <div className="w-8 h-8 rounded-lg bg-cyan-100 text-cyan-600 flex items-center justify-center shrink-0">
                                     <Bell className="w-4 h-4" />
                                 </div>
                                 <div className="min-w-0 flex-1">
-                                    <div className="text-xs font-bold text-slate-900 truncate">{n.title}</div>
+                                    <div className="text-xs font-bold text-slate-900 dark:text-white truncate">{n.title}</div>
                                     <div className="text-[10px] text-slate-400 line-clamp-1">{n.message}</div>
                                 </div>
                                 <div className="text-[10px] font-medium text-slate-400 whitespace-nowrap">
@@ -195,16 +195,16 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Son Görevler (Tamamlananlar veya Yeni Başvurular) */}
-                <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
+                <div className="bg-white dark:bg-slate-900/50 dark:backdrop-blur-sm rounded-[2rem] p-8 shadow-sm border border-slate-100 dark:border-slate-800">
                     <div className="flex items-center justify-between mb-6">
-                        <h3 className="text-lg font-bold text-slate-900">Son Görev Hareketleri</h3>
+                        <h3 className="text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">Son Görev Hareketleri</h3>
                         <Link href="/dashboard/submissions" className="text-xs font-bold text-cyan-600 hover:underline flex items-center">
                             Tümünü Gör <ArrowRight className="ml-1 w-3 h-3" />
                         </Link>
                     </div>
                     <div className="space-y-4">
                         {recentSubmissions.map((s) => (
-                            <div key={s.id} className="flex items-center justify-between p-4 rounded-2xl bg-slate-50 border border-slate-50 transition-all hover:bg-slate-100">
+                            <div key={s.id} className="flex items-center justify-between p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/30 border border-slate-50 dark:border-slate-800 transition-all hover:bg-slate-100 dark:hover:bg-slate-800/50">
                                 <div className="flex items-center gap-3 min-w-0">
                                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${s.status === 'pending' ? 'bg-amber-100 text-amber-600' :
                                         s.status === 'approved' ? 'bg-cyan-100 text-cyan-600' :
@@ -213,7 +213,7 @@ export default function DashboardPage() {
                                         <CheckSquare className="w-4 h-4" />
                                     </div>
                                     <div className="min-w-0">
-                                        <div className="text-xs font-bold text-slate-900 truncate">
+                                        <div className="text-xs font-bold text-slate-900 dark:text-white truncate">
                                             {s.profiles?.username || 'Kullanıcı'}
                                         </div>
                                         <div className="text-[10px] text-slate-400 truncate">
@@ -226,7 +226,7 @@ export default function DashboardPage() {
                                         s.status === 'completed' ? 'bg-emerald-100 text-emerald-600' :
                                             'bg-red-100 text-red-600'
                                     }`}>
-                                    {s.status.toUpperCase()}
+                                    {s.status === 'pending' ? 'BEKLEMEDE' : s.status === 'completed' ? 'TAMAMLANDI' : s.status === 'approved' ? 'ONAYLANDI' : 'REDEİLDİ'}
                                 </div>
                             </div>
                         ))}

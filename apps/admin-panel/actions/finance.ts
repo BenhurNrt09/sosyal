@@ -17,7 +17,7 @@ export async function getWithdrawalRequests() {
 export async function updateWithdrawalStatus(id: string, status: 'approved' | 'rejected', userId: string, amount: number) {
     const supabase = await createClient();
 
-    // Start status update
+    // 1. Start status update
     const { error: updateError } = await supabase
         .from("withdrawal_requests")
         .update({ status })
@@ -25,17 +25,22 @@ export async function updateWithdrawalStatus(id: string, status: 'approved' | 'r
 
     if (updateError) return { error: updateError.message };
 
-    // If approved, we need to ensure balance was already deducted or deduct it now.
-    // In our previous logic, we didn't deduct yet. Let's do it now.
+    // 2. If approved, we deduct the balance. 
+    // In a production app, the balance should ideally be "frozen" when requested,
+    // but here we deduct on approval.
     if (status === 'approved') {
-        const { data: profile } = await supabase.from("profiles").select("balance").eq("id", userId).single();
-        if (profile) {
-            const newBalance = (profile.balance || 0) - amount;
-            await supabase.from("profiles").update({ balance: newBalance }).eq("id", userId);
+        const { error: balanceError } = await supabase.rpc('increment_balance', {
+            user_id: userId,
+            amount: -amount // Use negative to subtract
+        });
+
+        if (balanceError) {
+            console.error("Withdrawal Balance Deduction Error:", balanceError);
+            return { error: "Bakiye düşülemedi: " + balanceError.message };
         }
     }
 
-    // Create notification for user
+    // 3. Create notification for user
     const title = status === 'approved' ? "Para Çekme Talebi Onaylandı" : "Para Çekme Talebi Reddedildi";
     const message = status === 'approved'
         ? `${amount}₺ tutarındaki çekim talebiniz onaylandı ve hesabınıza aktarıldı.`
@@ -50,5 +55,6 @@ export async function updateWithdrawalStatus(id: string, status: 'approved' | 'r
     });
 
     revalidatePath("/dashboard/finance");
+    revalidatePath("/dashboard/page");
     return { success: true };
 }

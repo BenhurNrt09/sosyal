@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@repo/lib/src/server";
+import { createClient, createAdminClient } from "@repo/lib/src/server";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 
@@ -44,6 +44,21 @@ export async function signIn(formData: FormData) {
         return { error: translateError(error.message) };
     }
 
+    // Step 2: Check App Authorization (App Isolation)
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+        const { data: profile } = await supabase
+            .from("profiles")
+            .select("is_dijital_havuz_user, role")
+            .eq("id", user.id)
+            .single();
+
+        if (profile?.role !== 'admin' && !profile?.is_dijital_havuz_user) {
+            await supabase.auth.signOut();
+            return { error: "Bu uygulama için kaydınız bulunmamaktadır. Lütfen kayıt olun." };
+        }
+    }
+
     return redirect("/dashboard");
 }
 
@@ -55,6 +70,9 @@ export async function signUp(formData: FormData) {
 
     const supabase = await createClient();
 
+    // Session Cleanup: Ensure any previous user is signed out before new registration
+    await supabase.auth.signOut();
+
     const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
         password,
@@ -65,6 +83,8 @@ export async function signUp(formData: FormData) {
                 username: username,
                 name: fullName,
                 role: 'user',
+                is_parala_user: false,
+                is_dijital_havuz_user: true
             },
         },
     });
@@ -83,4 +103,50 @@ export async function signOut() {
     const supabase = createClient();
     await supabase.auth.signOut();
     return redirect("/");
+}
+
+export async function checkResetEmail(email: string) {
+    const supabase = createClient();
+    const { data: profile, error } = await supabase
+        .from("profiles")
+        .select("id, is_dijital_havuz_user")
+        .eq("email", email)
+        .single();
+
+    if (error || !profile) {
+        return { error: "Bu e-posta adresi ile kayıtlı kullanıcı bulunamadı." };
+    }
+
+    if (!profile.is_dijital_havuz_user) {
+        return { error: "Bu uygulama için yetkiniz bulunmamaktadır." };
+    }
+
+    return { success: true };
+}
+
+export async function updatePassword(formData: FormData) {
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    const adminSupabase = createAdminClient();
+
+    // 1. Get user id by email
+    const { data: { users }, error: fetchError } = await adminSupabase.auth.admin.listUsers();
+    const user = users.find(u => u.email === email);
+
+    if (fetchError || !user) {
+        return { error: "Kullanıcı güncellenirken bir hata oluştu." };
+    }
+
+    // 2. Update password
+    const { error: updateError } = await adminSupabase.auth.admin.updateUserById(
+        user.id,
+        { password: password }
+    );
+
+    if (updateError) {
+        return { error: "Şifre güncellenemedi: " + updateError.message };
+    }
+
+    return { success: true };
 }

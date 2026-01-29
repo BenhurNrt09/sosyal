@@ -44,7 +44,7 @@ export function Sidebar({ appName, logoUrl, items, userResult }: SidebarProps) {
             const { data: { user } } = await supabase.auth.getUser();
 
             if (user) {
-                // Initial Fetch if userResult is not provided
+                // Only fetch if userResult is not provided by parent
                 if (!userResult) {
                     const { data: profile } = await supabase
                         .from("profiles")
@@ -57,6 +57,12 @@ export function Sidebar({ appName, logoUrl, items, userResult }: SidebarProps) {
                         setUserName(displayName);
                         setUserInitial(displayName.charAt(0).toUpperCase());
                         setIsAdmin(profile.role === 'admin');
+                    } else {
+                        // Fallback name from email if profile check fails
+                        const fallbackName = user.email?.split('@')[0] || "Kullanıcı";
+                        setUserName(fallbackName);
+                        setUserInitial(fallbackName.charAt(0).toUpperCase());
+                        setIsAdmin(false);
                     }
                 }
 
@@ -68,22 +74,24 @@ export function Sidebar({ appName, logoUrl, items, userResult }: SidebarProps) {
 
                 setUnreadCount(count || 0);
 
-                // Realtime for Profile
-                userSubscription = supabase
-                    .channel('profile_changes')
-                    .on('postgres_changes', {
-                        event: 'UPDATE',
-                        schema: 'public',
-                        table: 'profiles',
-                        filter: `id=eq.${user.id}`
-                    }, (payload) => {
-                        const newProfile = payload.new as any;
-                        const displayName = newProfile.name || newProfile.username || user.email?.split('@')[0] || "Kullanıcı";
-                        setUserName(displayName);
-                        setUserInitial(displayName.charAt(0).toUpperCase());
-                        setIsAdmin(newProfile.role === 'admin');
-                    })
-                    .subscribe();
+                // Realtime for Profile (only if userResult is not provided, otherwise parent handles updates)
+                if (!userResult) {
+                    userSubscription = supabase
+                        .channel('profile_changes')
+                        .on('postgres_changes', {
+                            event: 'UPDATE',
+                            schema: 'public',
+                            table: 'profiles',
+                            filter: `id=eq.${user.id}`
+                        }, (payload) => {
+                            const newProfile = payload.new as any;
+                            const displayName = newProfile.name || newProfile.username || user.email?.split('@')[0] || "Kullanıcı";
+                            setUserName(displayName);
+                            setUserInitial(displayName.charAt(0).toUpperCase());
+                            setIsAdmin(newProfile.role === 'admin');
+                        })
+                        .subscribe();
+                }
 
                 // Realtime for Notifications
                 notificationSubscription = supabase
@@ -107,17 +115,21 @@ export function Sidebar({ appName, logoUrl, items, userResult }: SidebarProps) {
 
         fetchData();
 
+        const handleUpdate = () => fetchData();
+        window.addEventListener('notifications-updated', handleUpdate);
+
         return () => {
             if (userSubscription) supabase.removeChannel(userSubscription);
             if (notificationSubscription) supabase.removeChannel(notificationSubscription);
+            window.removeEventListener('notifications-updated', handleUpdate);
         };
     }, []);
 
     const handleLogout = async () => {
         const supabase = createClient();
         await supabase.auth.signOut();
-        router.push("/");
-        router.refresh();
+        // Force a full page reload to the root to clear all local/client state
+        window.location.href = "/";
     };
 
     return (

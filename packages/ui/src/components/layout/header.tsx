@@ -9,7 +9,7 @@ interface HeaderProps {
 }
 
 export function Header({ title = "Ana Sayfa", userResult }: HeaderProps) {
-    const userDisplayName = userResult?.name || userResult?.username || (userResult?.role === 'admin' ? "Sistem Yöneticisi" : "Kullanıcı");
+    const userDisplayName = userResult?.name || userResult?.username || (userResult ? (userResult.role === 'admin' ? "Sistem Yöneticisi" : "Kullanıcı") : "Yükleniyor...");
 
     return (
         <header className="flex h-24 items-center justify-between px-8 bg-transparent pt-4">

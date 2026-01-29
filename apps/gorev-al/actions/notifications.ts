@@ -73,3 +73,20 @@ export async function notifyAdmins(title: string, message: string, type: string 
     const { error } = await supabase.from("notifications").insert(notifications);
     return error ? { error: error.message } : { success: true };
 }
+
+export async function markAllAsRead() {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) return { error: "Oturum açılmadı" };
+
+    const { error } = await supabase
+        .from("notifications")
+        .update({ is_read: true })
+        .eq("user_id", user.id)
+        .eq("is_read", false);
+
+    if (error) return { error: error.message };
+    revalidatePath("/notifications");
+    return { success: true };
+}
