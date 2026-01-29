@@ -7,7 +7,7 @@ export async function debugCurrentUser() {
 
     if (!user) return { error: "No user session" };
 
-    const { data: profile, error: profileError } = await supabase
+    const { data: profile, error: profileError } = await (supabase as any)
         .from("profiles")
         .select("*")
         .eq("id", user.id)

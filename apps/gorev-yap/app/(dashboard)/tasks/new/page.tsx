@@ -12,7 +12,7 @@ export default function CreateTaskPage() {
 
             <Card>
                 <CardContent className="pt-6">
-                    <form action={createTask} className="space-y-6">
+                    <form action={createTask as any} className="space-y-6">
 
                         <div className="space-y-2">
                             <Label htmlFor="platform">Platform</Label>

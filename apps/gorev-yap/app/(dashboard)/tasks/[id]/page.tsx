@@ -4,7 +4,7 @@ import { Button, Card, CardContent, CardHeader, CardTitle, CardDescription } fro
 import { CheckCircle2, XCircle, ExternalLink, Clock } from "lucide-react";
 
 export default async function TaskManagementPage({ params }: { params: { id: string } }) {
-    const data = await getTaskWithSubmissions(params.id);
+    const data = await getTaskWithSubmissions(params.id) as any;
 
     if (!data) {
         return <div>Görev bulunamadı veya yetkiniz yok.</div>;
@@ -82,7 +82,7 @@ export default async function TaskManagementPage({ params }: { params: { id: str
 
                                     {sub.status === 'pending' && (
                                         <div className="p-6 bg-slate-50 md:border-l md:w-48 w-full flex flex-col gap-2">
-                                            <form action={reviewSubmission}>
+                                            <form action={reviewSubmission as any}>
                                                 <input type="hidden" name="submissionId" value={sub.id} />
                                                 <input type="hidden" name="taskId" value={task.id} />
                                                 <input type="hidden" name="decision" value="approve" />
@@ -90,7 +90,7 @@ export default async function TaskManagementPage({ params }: { params: { id: str
                                                     <CheckCircle2 className="w-4 h-4" /> Onayla
                                                 </Button>
                                             </form>
-                                            <form action={reviewSubmission}>
+                                            <form action={reviewSubmission as any}>
                                                 <input type="hidden" name="submissionId" value={sub.id} />
                                                 <input type="hidden" name="taskId" value={task.id} />
                                                 <input type="hidden" name="decision" value="reject" />

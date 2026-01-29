@@ -175,7 +175,7 @@ export default function AdminTasksPage() {
                                                 </div>
                                                 <div>
                                                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Birim Fiyat</p>
-                                                    <p className="font-black text-slate-900 dark:text-white">{task.price.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}₺</p>
+                                                    <p className="font-black text-slate-900 dark:text-white">{Number(task.price).toLocaleString('tr-TR', { minimumFractionDigits: 2 })}₺</p>
                                                 </div>
                                                 <div>
                                                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Toplam</p>

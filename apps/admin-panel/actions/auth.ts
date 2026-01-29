@@ -23,7 +23,7 @@ function translateError(message: string): string {
     return "Bir hata oluştu. Lütfen tekrar deneyin.";
 }
 
-export async function signIn(formData: { username: string; password: "" }) {
+export async function signIn(formData: { username: string; password: string }) {
     const { username, password } = formData;
     const supabase = await createClient();
 
@@ -46,7 +46,7 @@ export async function signIn(formData: { username: string; password: "" }) {
     // Check if user is admin
     // IMPORTANT: If you get "infinite recursion", it's because of your Supabase RLS policies.
     // The safest way is to fix the policy in SQL, but let's try to get more info here.
-    const { data: profile, error: profileError } = await supabase
+    const { data: profile, error: profileError } = await (supabase as any)
         .from("profiles")
         .select("role, username")
         .eq("id", authData.user.id)
@@ -69,8 +69,8 @@ export async function signIn(formData: { username: string; password: "" }) {
         return { error: `Profil kontrol edilemedi: ${profileError.message}` };
     }
 
-    if (!profile || profile.role !== 'admin') {
-        const currentRole = profile?.role || 'tanımsız';
+    if (!profile || (profile as any).role !== 'admin') {
+        const currentRole = (profile as any)?.role || 'tanımsız';
         await supabase.auth.signOut();
         return { error: `Bu hesap admin yetkisine sahip değil. (Rolünüz: ${currentRole})` };
     }

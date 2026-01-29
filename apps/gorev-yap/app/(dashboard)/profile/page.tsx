@@ -27,19 +27,20 @@ export default function ProfilePage() {
     // Fetch user data from Supabase
     useEffect(() => {
         async function loadProfile() {
-            const result = await getProfile();
+            const result = await getProfile() as any;
             if (result.error) {
                 setError(result.error);
             } else if (result.profile) {
+                const p = result.profile as any;
                 setProfileData({
-                    name: result.profile.name || "",
-                    email: result.profile.email || "",
-                    phone: result.profile.phone || "",
-                    deviceType: result.profile.device_type || "",
-                    instagram: result.profile.instagram_username || "",
-                    tiktok: result.profile.tiktok_username || "",
-                    twitter: result.profile.twitter_username || "",
-                    youtube: result.profile.youtube_username || "",
+                    name: p.name || "",
+                    email: p.email || "",
+                    phone: p.phone || "",
+                    deviceType: p.device_type || "",
+                    instagram: p.instagram_username || "",
+                    tiktok: p.tiktok_username || "",
+                    twitter: p.twitter_username || "",
+                    youtube: p.youtube_username || "",
                 });
             }
         }

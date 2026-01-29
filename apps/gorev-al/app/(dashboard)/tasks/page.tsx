@@ -49,8 +49,8 @@ export default function TasksPage() {
 
     const loadTasks = async () => {
         setLoading(true);
-        const allTasks = await getTasks();
-        setTasks(allTasks.filter(t => t.status === "pending"));
+        const allTasks = await getTasks() as any;
+        setTasks(allTasks.filter((t: any) => t.status === "pending"));
         setLoading(false);
     };
 

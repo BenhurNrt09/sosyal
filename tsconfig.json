@@ -1,16 +1,19 @@
 {
     "compilerOptions": {
-        "target": "es2019",
-        "module": "commonjs",
+        "target": "ES2020",
+        "module": "ESNext",
         "lib": [
-            "es2019",
-            "dom"
+            "ESNext",
+            "dom",
+            "dom.iterable"
         ],
         "declaration": true,
         "strict": true,
         "esModuleInterop": true,
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
-        "moduleResolution": "node"
+        "moduleResolution": "bundler",
+        "resolveJsonModule": true,
+        "isolatedModules": true
     }
 }

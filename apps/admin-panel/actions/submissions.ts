@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 export async function getGlobalSubmissions() {
     const supabase = await createClient();
 
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
         .from('task_submissions')
         .select(`
             *,
@@ -26,7 +26,7 @@ export async function getGlobalSubmissions() {
 export async function updateGlobalSubmissionStatus(id: string, status: string) {
     const supabase = await createClient();
 
-    const { error } = await supabase
+    const { error } = await (supabase as any)
         .from('task_submissions')
         .update({ status })
         .eq('id', id);
@@ -41,7 +41,7 @@ export async function completeSubmissionAndPay(id: string) {
     const supabase = await createClient();
 
     // Fetch submission to get amount and user_id
-    const { data: sub, error: fetchError } = await supabase
+    const { data: sub, error: fetchError } = await (supabase as any)
         .from('task_submissions')
         .select('*, tasks(price)')
         .eq('id', id)
@@ -52,7 +52,7 @@ export async function completeSubmissionAndPay(id: string) {
     const amount = sub.tasks?.price || 0;
 
     // 1. Update status to completed
-    const { error: updateError } = await supabase
+    const { error: updateError } = await (supabase as any)
         .from('task_submissions')
         .update({ status: 'completed' })
         .eq('id', id);
@@ -61,7 +61,7 @@ export async function completeSubmissionAndPay(id: string) {
 
     // 2. Add balance to user using RPC
     // Note: increment_balance is more atomic and safer than manual update
-    const { error: balanceError } = await supabase.rpc('increment_balance', {
+    const { error: balanceError } = await (supabase as any).rpc('increment_balance', {
         user_id: sub.user_id,
         amount: amount
     });

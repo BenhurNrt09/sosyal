@@ -23,8 +23,8 @@ export async function updateProfile(formData: FormData) {
     const youtube = formData.get("youtube") as string;
 
     // Update profile
-    const { error: updateError } = await supabase
-        .from("profiles")
+    const { error: updateError } = await (supabase
+        .from("profiles") as any)
         .update({
             name,
             full_name: name, // Sync full_name as well

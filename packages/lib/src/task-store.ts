@@ -9,8 +9,8 @@ export interface Task {
     taskTypeName: string;
     link: string;
     accountName: string;
-    quantity: string;
-    price: string;
+    quantity: number;
+    price: number;
     description: string;
     status: 'pending' | 'approved' | 'in-progress' | 'completed' | 'rejected';
     createdAt: string;
@@ -61,8 +61,8 @@ export async function getTasks(): Promise<Task[]> {
             taskTypeName: task.task_type_name,
             link: task.link,
             accountName: task.account_name,
-            quantity: task.quantity,
-            price: task.price,
+            quantity: Number(task.quantity),
+            price: Number(task.price),
             description: task.description || '',
             status: task.status as Task['status'],
             createdAt: task.created_at,

@@ -29,7 +29,7 @@ export async function createTask(formData: FormData) {
     }
     */
 
-    const { error } = await supabase.from("tasks").insert({
+    const { error } = await (supabase.from("tasks") as any).insert({
         created_by: user.id,
         title,
         description,

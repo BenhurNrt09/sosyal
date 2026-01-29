@@ -54,7 +54,7 @@ export default function MyTasksPage() {
             const supabase = createClient();
             const { data: { user } } = await supabase.auth.getUser();
             if (user) {
-                const data = await getMySubmissions(user.id);
+                const data = await getMySubmissions(user.id) as any;
                 setSubmissions(data);
             }
         } catch (e) {

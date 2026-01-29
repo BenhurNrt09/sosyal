@@ -22,16 +22,17 @@ export async function submitSupportTicket(formData: FormData) {
         return { error: "Lütfen tüm alanları doldurun" };
     }
 
-    const { error } = await supabase.from("support_tickets").insert({
-        user_id: user.id,
-        subject,
-        message,
-        category: category || 'Diğer',
-        status: 'pending'
-    });
+    const { error: ticketError } = await (supabase as any)
+        .from("support_tickets").insert({
+            user_id: user.id,
+            subject,
+            message,
+            category: category || 'Diğer',
+            status: 'pending'
+        });
 
-    if (error) {
-        console.error("Support ticket error:", error);
+    if (ticketError) {
+        console.error("Support ticket error:", ticketError);
         return { error: "Destek talebi oluşturulurken bir hata oluştu" };
     }
 

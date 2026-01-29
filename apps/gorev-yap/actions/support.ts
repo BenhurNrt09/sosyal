@@ -22,7 +22,7 @@ export async function submitSupportTicket(formData: FormData) {
         return { error: "Lütfen tüm alanları doldurun" };
     }
 
-    const { error } = await supabase.from("support_tickets").insert({
+    const { error } = await (supabase.from("support_tickets") as any).insert({
         user_id: user.id,
         subject,
         message,

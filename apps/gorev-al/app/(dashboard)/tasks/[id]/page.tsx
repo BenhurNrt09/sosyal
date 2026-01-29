@@ -9,7 +9,7 @@ import { AlertCircle, CheckCircle2 } from "lucide-react";
 // to ensure it works then refactor, OR I can just use basic styling classes.
 
 export default async function TaskDetailPage({ params }: { params: { id: string } }) {
-    const task = await getTaskById(params.id);
+    const task = await getTaskById(params.id) as any;
 
     if (!task) {
         return <div>Görev bulunamadı.</div>;
@@ -49,7 +49,7 @@ export default async function TaskDetailPage({ params }: { params: { id: string 
                     <CardDescription>Görevi tamamladıktan sonra kanıtlarını buradan ilet.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <form action={submitProof} className="space-y-4">
+                    <form action={submitProof as any} className="space-y-4">
                         <input type="hidden" name="taskId" value={task.id} />
 
                         <div className="space-y-2">

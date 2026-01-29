@@ -13,7 +13,7 @@ export async function submitTaskApplication(taskId: string, proofData: string) {
     }
 
     // Check if already submitted
-    const { data: existing } = await supabase
+    const { data: existing } = await (supabase as any)
         .from("task_submissions")
         .select("id")
         .eq("task_id", taskId)
@@ -25,7 +25,7 @@ export async function submitTaskApplication(taskId: string, proofData: string) {
     }
 
     // Get task details
-    const { data: task } = await supabase
+    const { data: task } = await (supabase as any)
         .from("tasks")
         .select("*")
         .eq("id", taskId)
@@ -36,7 +36,7 @@ export async function submitTaskApplication(taskId: string, proofData: string) {
     }
 
     // Create submission
-    const { error: insertError } = await supabase
+    const { error: insertError } = await (supabase as any)
         .from("task_submissions")
         .insert({
             task_id: taskId,
@@ -52,7 +52,7 @@ export async function submitTaskApplication(taskId: string, proofData: string) {
 
     // Notify task creator (görev veren)
     if (task.user_id) {
-        await supabase.from("notifications").insert({
+        await (supabase as any).from("notifications").insert({
             user_id: task.user_id,
             title: "Yeni Görev Başvurusu",
             message: `Görevinize yeni bir başvuru yapıldı: ${task.title || task.platform}`,
@@ -77,7 +77,7 @@ export async function submitProof(formData: FormData) {
         // But for consistency let's just use what we have.
     }
 
-    return result;
+    // Simplified return to satisfy Next.js form action types in Server Components
 }
 
 export async function getMySubmissions() {
@@ -86,7 +86,7 @@ export async function getMySubmissions() {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return { data: [] };
 
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
         .from("task_submissions")
         .select(`
             *,

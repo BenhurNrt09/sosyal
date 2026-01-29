@@ -11,8 +11,8 @@ export async function reviewSubmission(formData: FormData) {
     const supabase = createClient();
 
     // 1. Update submission status
-    const { error: updateError } = await supabase
-        .from("task_submissions")
+    const { error: updateError } = await (supabase
+        .from("task_submissions") as any)
         .update({
             status: decision === 'approve' ? 'approved' : 'rejected',
             reviewed_at: new Date().toISOString()
@@ -26,8 +26,8 @@ export async function reviewSubmission(formData: FormData) {
     // 2. If approved, add balance to worker
     if (decision === 'approve') {
         // Get task price and worker id
-        const { data: submission } = await supabase
-            .from("task_submissions")
+        const { data: submission } = await (supabase
+            .from("task_submissions") as any)
             .select("worker_id, tasks(price_per_action)")
             .eq("id", submissionId)
             .single();
@@ -44,7 +44,7 @@ export async function reviewSubmission(formData: FormData) {
             // "update profiles set balance = balance + amount where id = workerId"
 
             // Let's us the previous rpc if exists or simple update
-            const { error: balanceError } = await supabase.rpc('add_balance', {
+            const { error: balanceError } = await (supabase as any).rpc('add_balance', {
                 user_id: workerId,
                 amount: amount
             });
@@ -52,7 +52,7 @@ export async function reviewSubmission(formData: FormData) {
             if (balanceError) console.error("Balance update error", balanceError);
 
             // Create Transaction Record
-            await supabase.from("transactions").insert({
+            await (supabase.from("transactions") as any).insert({
                 user_id: workerId,
                 amount: amount,
                 transaction_type: 'task_reward',
@@ -64,5 +64,4 @@ export async function reviewSubmission(formData: FormData) {
     }
 
     revalidatePath(`/dashboard/tasks/${taskId}`);
-    return { success: true };
 }

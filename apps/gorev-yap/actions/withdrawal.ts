@@ -26,8 +26,8 @@ export async function createWithdrawalRequest(formData: FormData) {
     }
 
     // Get user's current balance
-    const { data: profile, error: profileError } = await supabase
-        .from("profiles")
+    const { data: profile, error: profileError } = await (supabase
+        .from("profiles") as any)
         .select("balance")
         .eq("id", user.id)
         .single();
@@ -42,8 +42,8 @@ export async function createWithdrawalRequest(formData: FormData) {
     }
 
     // Create withdrawal request
-    const { error: insertError } = await supabase
-        .from("withdrawal_requests")
+    const { error: insertError } = await (supabase
+        .from("withdrawal_requests") as any)
         .insert({
             user_id: user.id,
             amount,
@@ -80,8 +80,8 @@ export async function getWithdrawalRequests() {
         return { error: "Kullanıcı oturumu bulunamadı" };
     }
 
-    const { data: requests, error: requestsError } = await supabase
-        .from("withdrawal_requests")
+    const { data: requests, error: requestsError } = await (supabase
+        .from("withdrawal_requests") as any)
         .select("*")
         .eq("user_id", user.id)
         .order("created_at", { ascending: false });

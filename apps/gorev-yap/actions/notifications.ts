@@ -21,8 +21,8 @@ export async function getNotifications() {
 
 export async function markAsRead(id: string) {
     const supabase = await createClient();
-    const { error } = await supabase
-        .from("notifications")
+    const { error } = await (supabase
+        .from("notifications") as any)
         .update({ is_read: true })
         .eq("id", id);
 
@@ -33,8 +33,8 @@ export async function markAsRead(id: string) {
 
 export async function createNotification(userId: string, title: string, message: string, type: string = 'info', link?: string) {
     const supabase = await createClient();
-    const { error } = await supabase
-        .from("notifications")
+    const { error } = await (supabase
+        .from("notifications") as any)
         .insert({
             user_id: userId,
             title,
@@ -57,9 +57,10 @@ export async function notifyAdmins(title: string, message: string, type: string 
         .select("id")
         .eq("role", "admin");
 
-    if (adminError || !admins) return { error: "Adminler bulunamadı" };
+    const adminList = admins as any[] | null;
+    if (adminError || !adminList) return { error: "Adminler bulunamadı" };
 
-    const notifications = admins.map(admin => ({
+    const notifications = adminList.map(admin => ({
         user_id: admin.id,
         title,
         message,
@@ -67,7 +68,7 @@ export async function notifyAdmins(title: string, message: string, type: string 
         link
     }));
 
-    const { error } = await supabase.from("notifications").insert(notifications);
+    const { error } = await (supabase.from("notifications") as any).insert(notifications);
     return error ? { error: error.message } : { success: true };
 }
 
@@ -77,8 +78,8 @@ export async function markAllAsRead() {
 
     if (!user) return { error: "Oturum açılmadı" };
 
-    const { error } = await supabase
-        .from("notifications")
+    const { error } = await (supabase
+        .from("notifications") as any)
         .update({ is_read: true })
         .eq("user_id", user.id)
         .eq("is_read", false);

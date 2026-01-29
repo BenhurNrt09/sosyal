@@ -25,8 +25,8 @@ export async function createTask(taskData: {
     // Kullanıcının yeterli bakiyesi var mı kontrol et
     const totalCost = Number(taskData.quantity) * Number(taskData.price);
 
-    const { data: profile } = await supabase
-        .from("profiles")
+    const { data: profile } = await (supabase
+        .from("profiles") as any)
         .select("balance")
         .eq("id", user.id)
         .single();
@@ -36,8 +36,8 @@ export async function createTask(taskData: {
     }
 
     // Görevi oluştur
-    const { data: task, error: taskError } = await supabase
-        .from("tasks")
+    const { data: task, error: taskError } = await (supabase
+        .from("tasks") as any)
         .insert({
             user_id: user.id,
             platform: taskData.platform,
@@ -61,7 +61,7 @@ export async function createTask(taskData: {
     }
 
     // Bakiyeden düş (Atomic RPC)
-    const { error: balanceError } = await supabase.rpc('increment_balance', {
+    const { error: balanceError } = await (supabase as any).rpc('increment_balance', {
         user_id: user.id,
         amount: -totalCost // Negatif değer ile bakiyeyi düşürür
     });
@@ -69,18 +69,18 @@ export async function createTask(taskData: {
     if (balanceError) {
         console.error("Balance deduction error:", balanceError);
         // Rollback task
-        await supabase.from("tasks").delete().eq("id", task.id);
+        await (supabase.from("tasks") as any).delete().eq("id", task.id);
         return { error: "Bakiye güncellenirken hata oluştu: " + balanceError.message };
     }
 
     // TÜM PARALA KULLANICILARINI BİLGİLENDİR (role = 'user')
-    const { data: paralaUsers } = await supabase
-        .from("profiles")
+    const { data: paralaUsers } = await (supabase
+        .from("profiles") as any)
         .select("id")
         .eq("role", "user");  // Normal kullanıcılar (görev alanlar)
 
     if (paralaUsers && paralaUsers.length > 0) {
-        const notifications = paralaUsers.map(u => ({
+        const notifications = paralaUsers.map((u: any) => ({
             user_id: u.id,
             title: "Yeni Görev!",
             message: `${taskData.platformName} - ${taskData.taskTypeName} görevi eklendi! Ödül: ₺${taskData.price}`,
@@ -88,7 +88,7 @@ export async function createTask(taskData: {
             link: "/tasks"  // Parala'daki görevler sayfası
         }));
 
-        await supabase.from("notifications").insert(notifications);
+        await (supabase.from("notifications") as any).insert(notifications);
     }
 
     revalidatePath("/dashboard/tasks");
@@ -101,8 +101,8 @@ export async function getMyTasks() {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return { data: [] };
 
-    const { data, error } = await supabase
-        .from("tasks")
+    const { data, error } = await (supabase
+        .from("tasks") as any)
         .select("*")
         .eq("user_id", user.id)
         .order("created_at", { ascending: false });
@@ -118,8 +118,8 @@ export async function getMyTasks() {
 export async function getTaskSubmissions(taskId: string) {
     const supabase = await createClient();
 
-    const { data, error } = await supabase
-        .from("task_submissions")
+    const { data, error } = await (supabase
+        .from("task_submissions") as any)
         .select(`
             *,
             profiles:user_id (

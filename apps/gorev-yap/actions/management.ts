@@ -9,8 +9,8 @@ export async function getMyTasks() {
 
     if (!user) return [];
 
-    const { data, error } = await supabase
-        .from("tasks")
+    const { data, error } = await (supabase
+        .from("tasks") as any)
         .select("*")
         .eq("created_by", user.id)
         .order("created_at", { ascending: false });
@@ -30,8 +30,8 @@ export async function getTaskWithSubmissions(taskId: string) {
     if (!user) return null;
 
     // Verify ownership
-    const { data: task } = await supabase
-        .from("tasks")
+    const { data: task } = await (supabase
+        .from("tasks") as any)
         .select("*")
         .eq("id", taskId)
         .eq("created_by", user.id)
@@ -40,8 +40,8 @@ export async function getTaskWithSubmissions(taskId: string) {
     if (!task) return null;
 
     // Get submissions
-    const { data: submissions } = await supabase
-        .from("task_submissions")
+    const { data: submissions } = await (supabase
+        .from("task_submissions") as any)
         .select(`
       *,
       profiles:worker_id (

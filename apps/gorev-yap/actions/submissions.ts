@@ -13,7 +13,7 @@ export async function approveAndPaySubmission(submissionId: string) {
 
     // RPC'yi çağır: complete_task_and_pay
     // Bu fonksiyon hem durumu 'completed' yapar hem de bakiyeyi aktarır.
-    const { error } = await supabase.rpc('complete_task_and_pay', {
+    const { error } = await (supabase as any).rpc('complete_task_and_pay', {
         p_submission_id: submissionId
     });
 
@@ -29,8 +29,8 @@ export async function approveAndPaySubmission(submissionId: string) {
 export async function rejectSubmission(submissionId: string) {
     const supabase = await createClient();
 
-    const { error } = await supabase
-        .from('task_submissions')
+    const { error } = await (supabase
+        .from('task_submissions') as any)
         .update({ status: 'rejected' })
         .eq('id', submissionId);
 

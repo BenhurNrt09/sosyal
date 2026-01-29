@@ -30,8 +30,9 @@ export async function getDashboardStats() {
         .eq("user_id", user.id)
         .eq("is_read", false);
 
+    const p = profile as any;
     return {
-        balance: profile?.balance || 0,
+        balance: p?.balance || 0,
         pendingTasks: pendingTasks || 0,
         completedTasks: 0, // Placeholder
         unreadNotifications: unreadNotifications || 0

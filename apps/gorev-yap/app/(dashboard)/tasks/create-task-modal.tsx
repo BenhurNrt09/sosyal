@@ -111,7 +111,7 @@ export function CreateTaskModal({ isOpen, onClose, onSubmit }: CreateTaskModalPr
     };
 
     const handleSubmit = () => {
-        const newTask: Omit<Task, 'id' | 'createdAt'> = {
+        const newTask: any = {
             platform: selectedPlatform!.id,
             platformName: selectedPlatform!.name,
             taskType: selectedTaskType!.id,

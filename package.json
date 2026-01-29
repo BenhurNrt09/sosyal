@@ -8,6 +8,9 @@
     "apps/gorev-yap",
     "packages/*"
   ],
+  "dependencies": {
+    "@supabase/ssr": "0.8.0"
+  },
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",

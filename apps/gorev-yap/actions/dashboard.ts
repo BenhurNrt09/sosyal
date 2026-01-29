@@ -8,33 +8,34 @@ export async function getDashboardStats() {
     if (!user) return { error: "Oturum bulunamadı" };
 
     // Fetch profile for balance
-    const { data: profile } = await supabase
-        .from("profiles")
+    const { data: profile } = await (supabase
+        .from("profiles") as any)
         .select("balance")
         .eq("id", user.id)
         .single();
 
     // Fetch task counts
-    const { count: pendingTasks } = await supabase
-        .from("tasks")
+    const { count: pendingTasks } = await (supabase
+        .from("tasks") as any)
         .select("*", { count: 'exact', head: true })
         .eq("user_id", user.id)
         .eq("status", "pending");
 
-    const { count: completedTasks } = await supabase
-        .from("tasks")
+    const { count: completedTasks } = await (supabase
+        .from("tasks") as any)
         .select("*", { count: 'exact', head: true })
         .eq("user_id", user.id)
         .eq("status", "completed");
 
-    const { count: unreadNotifications } = await supabase
-        .from("notifications")
+    const { count: unreadNotifications } = await (supabase
+        .from("notifications") as any)
         .select("*", { count: 'exact', head: true })
         .eq("user_id", user.id)
         .eq("is_read", false);
 
+    const p = profile as any;
     return {
-        balance: profile?.balance || 0,
+        balance: p?.balance || 0,
         pendingTasks: pendingTasks || 0,
         completedTasks: completedTasks || 0,
         unreadNotifications: unreadNotifications || 0
@@ -44,8 +45,8 @@ export async function getDashboardStats() {
 export async function getLatestAnnouncements() {
     const supabase = await createClient();
 
-    const { data } = await supabase
-        .from("notifications")
+    const { data } = await (supabase
+        .from("notifications") as any)
         .select("*")
         .is("user_id", null)
         .order("created_at", { ascending: false })

@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 
 export async function getWithdrawalRequests() {
     const supabase = await createClient();
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
         .from("withdrawal_requests")
         .select("*, profiles:user_id(username, email, balance)")
         .order("created_at", { ascending: false });
@@ -18,7 +18,7 @@ export async function updateWithdrawalStatus(id: string, status: 'approved' | 'r
     const supabase = await createClient();
 
     // 1. Start status update
-    const { error: updateError } = await supabase
+    const { error: updateError } = await (supabase as any)
         .from("withdrawal_requests")
         .update({ status })
         .eq("id", id);
@@ -29,7 +29,7 @@ export async function updateWithdrawalStatus(id: string, status: 'approved' | 'r
     // In a production app, the balance should ideally be "frozen" when requested,
     // but here we deduct on approval.
     if (status === 'approved') {
-        const { error: balanceError } = await supabase.rpc('increment_balance', {
+        const { error: balanceError } = await (supabase as any).rpc('increment_balance', {
             user_id: userId,
             amount: -amount // Use negative to subtract
         });
@@ -46,7 +46,7 @@ export async function updateWithdrawalStatus(id: string, status: 'approved' | 'r
         ? `${amount}₺ tutarındaki çekim talebiniz onaylandı ve hesabınıza aktarıldı.`
         : `${amount}₺ tutarındaki çekim talebiniz maalesef reddedildi.`;
 
-    await supabase.from("notifications").insert({
+    await (supabase as any).from("notifications").insert({
         user_id: userId,
         title,
         message,

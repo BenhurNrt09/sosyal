@@ -53,7 +53,8 @@ export async function signIn(formData: FormData) {
             .eq("id", user.id)
             .single();
 
-        if (profile?.role !== 'admin' && !profile?.is_dijital_havuz_user) {
+        const p = profile as any;
+        if (p?.role !== 'admin' && !p?.is_dijital_havuz_user) {
             await supabase.auth.signOut();
             return { error: "Bu uygulama için kaydınız bulunmamaktadır. Lütfen kayıt olun." };
         }
@@ -113,11 +114,12 @@ export async function checkResetEmail(email: string) {
         .eq("email", email)
         .single();
 
-    if (error || !profile) {
+    const p = profile as any;
+    if (error || !p) {
         return { error: "Bu e-posta adresi ile kayıtlı kullanıcı bulunamadı." };
     }
 
-    if (!profile.is_dijital_havuz_user) {
+    if (!p.is_dijital_havuz_user) {
         return { error: "Bu uygulama için yetkiniz bulunmamaktadır." };
     }
 

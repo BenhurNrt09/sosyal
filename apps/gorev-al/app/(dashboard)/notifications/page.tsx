@@ -15,7 +15,7 @@ export default function NotificationsPage() {
 
     async function loadNotifications() {
         setLoading(true);
-        const result = await getNotifications();
+        const result = await getNotifications() as any;
         if (result.notifications) {
             setNotifications(result.notifications);
         }

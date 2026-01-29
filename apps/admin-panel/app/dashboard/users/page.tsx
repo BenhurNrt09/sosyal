@@ -39,7 +39,7 @@ export default function UsersPage() {
 
         try {
             const { getAllUsers } = await import("@/actions/admin");
-            const result = await getAllUsers();
+            const result = await getAllUsers() as any;
 
             if (result.error) {
                 setError(result.error);
@@ -51,8 +51,8 @@ export default function UsersPage() {
 
                 setStats({
                     total: result.data?.length || 0,
-                    active: result.data?.filter(u => u.role !== 'banned').length || 0,
-                    new: result.data?.filter(u => new Date(u.created_at) > thirtyDaysAgo).length || 0
+                    active: result.data?.filter((u: any) => u.role !== 'banned').length || 0,
+                    new: result.data?.filter((u: any) => new Date(u.created_at) > thirtyDaysAgo).length || 0
                 });
             }
         } catch (err: any) {

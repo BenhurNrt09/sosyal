@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    transpilePackages: ["@repo/ui"],
+    transpilePackages: ["@repo/ui", "@repo/lib"],
     images: {
         domains: ['images.unsplash.com'], // For random placeholder images
     },
@@ -8,7 +8,7 @@ const nextConfig = {
         return [
             {
                 source: '/admin',
-                destination: 'https://admin.webisse.tech', // Placeholder, update as needed
+                destination: process.env.NEXT_PUBLIC_ADMIN_PANEL_URL || 'https://admin.webisse.tech',
                 permanent: false,
             },
         ];
