@@ -11,7 +11,7 @@ DECLARE
     v_status TEXT;
 BEGIN
     -- 1. Başvuru ve Görev bilgilerini al
-    SELECT ts.task_id, ts.user_id, t.price::FLOAT8, t.user_id, ts.status
+    SELECT ts.task_id, ts.user_id, t.price::FLOAT8, t.user_id as creator_id, ts.status
     INTO v_task_id, v_worker_id, v_amount, v_creator_id, v_status
     FROM public.task_submissions ts
     JOIN public.tasks t ON ts.task_id = t.id

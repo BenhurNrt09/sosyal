@@ -45,12 +45,6 @@ export function DashboardShell({ children, appName, logoUrl, navItems, title, cl
                         setTimeout(() => {
                             window.location.href = "/login?error=unauthorized";
                         }, 500);
-                    } else if (appName !== "Admin Panel" && result.role === 'admin') {
-                        // 2. Admin trying to access Parala or Dijital Havuz
-                        console.warn("Security Check: Admin user attempted to access User App. Redirecting to Admin Panel...");
-                        setTimeout(() => {
-                            window.location.href = process.env.NEXT_PUBLIC_ADMIN_PANEL_URL || "/login?error=unauthorized";
-                        }, 500);
                     }
                 }
             } else {
