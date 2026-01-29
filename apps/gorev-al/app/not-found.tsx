@@ -1,26 +1,21 @@
-"use client";
-
-import { Button } from "@repo/ui";
-import { FileSearch } from "lucide-react";
+import Link from 'next/link';
 
 export default function NotFound() {
     return (
-        <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4 text-center">
-            <div className="w-24 h-24 bg-violet-100 rounded-3xl flex items-center justify-center text-violet-600 mb-8 animate-bounce">
-                <FileSearch size={48} />
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-violet-50 to-purple-50 p-4">
+            <div className="text-center">
+                <h1 className="text-9xl font-black text-violet-600 mb-4">404</h1>
+                <h2 className="text-3xl font-bold text-slate-900 mb-4">Sayfa Bulunamadı</h2>
+                <p className="text-lg text-slate-600 mb-8">
+                    Aradığınız sayfa mevcut değil veya taşınmış olabilir.
+                </p>
+                <Link
+                    href="/"
+                    className="inline-flex items-center px-8 py-4 bg-violet-600 hover:bg-violet-700 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-xl"
+                >
+                    Anasayfaya Dön
+                </Link>
             </div>
-            <h1 className="text-6xl font-black text-slate-900 mb-4">404</h1>
-            <h2 className="text-2xl font-bold text-slate-800 mb-4 font-black uppercase tracking-tight">Sayfa Bulunamadı</h2>
-            <p className="text-slate-500 max-w-md mb-8 font-medium transition-colors">
-                Aradığınız sayfa mevcut değil veya taşınmış olabilir.
-                Lütfen adresi kontrol edin veya geri dönün.
-            </p>
-            <Button
-                onClick={() => window.history.back()}
-                className="bg-violet-600 hover:bg-violet-700 text-white font-black px-8 py-6 rounded-2xl shadow-lg shadow-violet-100 transition-all active:scale-[0.95]"
-            >
-                GERİ DÖN
-            </Button>
         </div>
     );
 }
