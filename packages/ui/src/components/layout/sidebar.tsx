@@ -177,35 +177,6 @@ export function Sidebar({ appName, logoUrl, items, userResult }: SidebarProps) {
             </nav>
 
             <div className="p-4 border-t border-slate-50 dark:border-slate-800 shrink-0">
-                <div className="bg-slate-50 dark:bg-slate-800 rounded-2xl p-4 mb-4 border border-slate-100 dark:border-slate-700">
-                    <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3 px-1">Diğer Uygulamalar</p>
-                    <div className="grid grid-cols-2 gap-2">
-                        <a
-                            href={process.env.NEXT_PUBLIC_DIJITAL_HAVUZ_URL || "#"}
-                            className={cn(
-                                "flex flex-col items-center justify-center p-2 rounded-xl border transition-all",
-                                appName.toUpperCase() === "DİJİTAL HAVUZ"
-                                    ? "bg-orange-500 text-white border-orange-400 shadow-lg shadow-orange-500/20"
-                                    : "bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 hover:border-orange-200 text-slate-600 dark:text-slate-400"
-                            )}
-                        >
-                            <Activity className="w-4 h-4 mb-1" />
-                            <span className="text-[9px] font-black uppercase tracking-tighter">HAVUZ</span>
-                        </a>
-                        <a
-                            href={process.env.NEXT_PUBLIC_PARALA_URL || "#"}
-                            className={cn(
-                                "flex flex-col items-center justify-center p-2 rounded-xl border transition-all",
-                                appName.toUpperCase() === "PARALA"
-                                    ? "bg-violet-600 text-white border-violet-500 shadow-lg shadow-violet-600/20"
-                                    : "bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 hover:border-violet-200 text-slate-600 dark:text-slate-400"
-                            )}
-                        >
-                            <Activity className="w-4 h-4 mb-1" />
-                            <span className="text-[9px] font-black uppercase tracking-tighter">PARALA</span>
-                        </a>
-                    </div>
-                </div>
 
                 <div className="bg-slate-50 dark:bg-slate-800 rounded-2xl p-4 flex items-center gap-3 border border-slate-100 dark:border-slate-700">
                     <div className="w-10 h-10 bg-primary/10 dark:bg-primary/20 rounded-full flex items-center justify-center text-primary font-bold text-lg border-2 border-white dark:border-slate-700 shadow-sm">
